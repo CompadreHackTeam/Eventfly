@@ -108,7 +108,7 @@ exports.postEvent = function (req, res) {
         res.writeHead(400, {'content-type': 'text/plain'});
         res.write("Error: invalid JSON object");
         res.end();
-    } else {
+    } else { 
         for (var i in fields.tagList) {
             fields.tagList[i] = fields.tagList[i].toLowerCase();
         }
