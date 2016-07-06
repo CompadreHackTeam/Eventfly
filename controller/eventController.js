@@ -103,7 +103,7 @@ exports.postEvent = function (req, res) {
                         required: false,
                         allowEmpty: false
                     }
-                }
+                } 
             }).valid == false) {
         res.writeHead(400, {'content-type': 'text/plain'});
         res.write("Error: invalid JSON object");
