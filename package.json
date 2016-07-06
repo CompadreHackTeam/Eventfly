@@ -16,6 +16,8 @@
     "http-auth": "2.2.8",
     "basic-auth": "1.0.3",
     "request": "2.67.0",
-    "method-override": "2.3.5"
+    "method-override": "2.3.5",
+    "revalidator": "^0.3.1"
+
   }
 }

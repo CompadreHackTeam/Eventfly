@@ -34,9 +34,9 @@ exports.getEvents = function (req, res) {
  */
 exports.getEventsByLocation = function (req, res) {
 
-    var latitude    = req.params.latitude; //latitude from param
-    var longitude   = req.params.longitude; //longitude from param
-    var radius      = parseInt(req.params.radius); //radious of the maxDistance
+    var latitude = req.params.latitude; //latitude from param
+    var longitude = req.params.longitude; //longitude from param
+    var radius = parseInt(req.params.radius); //radious of the maxDistance
 
     Event.find({
         "loc": {
@@ -69,49 +69,89 @@ exports.deleteEvents = function (req, res) {
 exports.postEvent = function (req, res) {
 
     var fields = req.body;
-
-    /* for each tag in tagList make toLowerCase for standard */
-    for (var i in fields.tagList) {
-        fields.tagList[i] = fields.tagList[i].toLowerCase();
-    }
-
-    var event = new Event({
-        name: fields.name,
-        latitude: fields.latitude,
-        longitude: fields.longitude,
-        //type            : "Point",
-        //loc             : [fields.latitude, fields.longitude],
-        loc: {
-            type: "Point",
-            coordinates: [fields.latitude, fields.longitude]
-        },
-        //location.type : "Point",
-        //location.coordinates : [fields.latitude, fields.longitude],
-        radius: fields.radius,
-        owner: 1,
-        tagList: fields.tagList
-        /*messageList: */
-
-    });
-
-    //Now we save (if not exists) the tags associated to the event previously saved
-    for (var i in fields.tagList) {
-        saveTagsFromEvent(fields.tagList[i]);
-    }
-    event.save(function (err) {
-        if (err != null) {
-            res.writeHead(400, {'content-type': 'text/plain'});
-            res.write("Error: " + err);
-            res.end();
-        } else {
-
-            res.writeHead(200, {'content-type': 'text/plain'});
-            res.write('Guardado en MongoDB : \n\n');
-            res.end(util.inspect({
-                fields: fields
-            }));
+    var revalidator = require('revalidator');
+    if (revalidator.validate(fields,
+            {
+                properties: {
+                    name: {
+                        type : 'String',
+                        required: true,
+                        allowEmpty: false
+                    },
+                    latitude: {
+                        type : 'Number',
+                        required: true,
+                        allowEmpty: false
+                    },
+                    longitude: {
+                        type : 'Number',
+                        required: true,
+                        allowEmpty: false
+                    },
+                    radius: {
+                        type : 'Number',
+                        required: true,
+                        allowEmpty: false
+                    },
+                    type: {
+                        type : 'String',
+                        required: false,
+                        allowEmpty: true
+                    },
+                    tagList: {
+                        //type : 'String', si intento ponerlo en formato de lista '[String]' peta
+                        required: false,
+                        allowEmpty: false
+                    }
+                }
+            }).valid == false) {
+        res.writeHead(400, {'content-type': 'text/plain'});
+        res.write("Error: invalid JSON object");
+        res.end();
+    } else {
+        for (var i in fields.tagList) {
+            fields.tagList[i] = fields.tagList[i].toLowerCase();
         }
-    });
+        var event = new Event({
+            name: fields.name,
+            latitude: fields.latitude,
+            longitude: fields.longitude,
+            //type            : "Point",
+            //loc             : [fields.latitude, fields.longitude],
+            loc: {
+                type: "Point",
+                coordinates: [fields.latitude, fields.longitude],
+                index: String
+            },
+            //location.type : "Point",
+            //location.coordinates : [fields.latitude, fields.longitude],
+            type: fields.type,
+            radius: fields.radius,
+            owner: 1,
+            tagList: fields.tagList
+            /*messageList: */
+
+        });
+
+        //Now we save (if not exists) the tags associated to the event previously saved
+        for (var i in fields.tagList) {
+            saveTagsFromEvent(fields.tagList[i]);
+        }
+        event.save(function (err) {
+            if (err != null) {
+                res.writeHead(400, {'content-type': 'text/plain'});
+                res.write("Error: " + err);
+                res.end();
+            } else {
+
+                res.writeHead(200, {'content-type': 'text/plain'});
+                res.write('Guardado en MongoDB : \n\n');
+                res.end(util.inspect({
+                    fields: fields
+                }));
+            }
+        });
+    }
 };
 
 /**
