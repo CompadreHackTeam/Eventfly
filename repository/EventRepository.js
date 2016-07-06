@@ -45,7 +45,7 @@ exports.saveEvent =  function(obj, callback){
         }
         event.save(function (err) {
             if (err != null) {
-                callback(null, obj);
+                callback(err, obj);
             }else{
                 callback(null, obj);
             }

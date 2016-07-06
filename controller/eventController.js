@@ -117,12 +117,12 @@ exports.postEvent = function (req, res) {
                 res.end(util.inspect({
                     fields: fields
                 }));
-                console.log("err not null")
+                console.log("Todo guay todo chachi")
             }else{
                 res.writeHead(400, {'content-type': 'text/plain'});
                 res.write("Error: " + err);
                 res.end();
-                console.log("err is null");;
+                console.log("Error: " + err);;
             }
         });
     }
