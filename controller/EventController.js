@@ -15,6 +15,7 @@ var util = require("util");
 /**
  * @method getEvents
  * returns all events saved in the BD
+ * TODO : Move to repository
  */
 exports.getEvents = function (req, res) {
 
@@ -56,6 +57,12 @@ exports.getEventsByLocation = function (req, res) {
     });
 };
 
+/**
+ * Delete al events
+ * TODO : REMOVE IN PRODUCTION
+ * @param req
+ * @param res
+ */
 exports.deleteEvents = function (req, res) {
     Event.remove({}, function (err, result) {
         if (err) console.log("Error: " + err);
@@ -75,27 +82,27 @@ exports.postEvent = function (req, res) {
             {
                 properties: {
                     name: {
-                        type : 'String',
+                        type: 'String',
                         required: true,
                         allowEmpty: false
                     },
                     latitude: {
-                        type : 'Number',
+                        type: 'Number',
                         required: true,
                         allowEmpty: false
                     },
                     longitude: {
-                        type : 'Number',
+                        type: 'Number',
                         required: true,
                         allowEmpty: false
                     },
                     radius: {
-                        type : 'Number',
+                        type: 'Number',
                         required: true,
-                        allowEmpty: false 
+                        allowEmpty: false
                     },
                     type: {
-                        type : 'String',
+                        type: 'String',
                         required: false,
                         allowEmpty: true
                     },
@@ -110,19 +117,20 @@ exports.postEvent = function (req, res) {
         res.write("Error: invalid JSON object");
         res.end();
     } else {
-        eventRepository.saveEvent(fields, function(fields, err){
-            if(err != null){
+        eventRepository.saveEvent(fields, function (fields, err) {
+            if (err != null) {
                 res.writeHead(200, {'content-type': 'text/plain'});
                 res.write('Guardado en MongoDB : \n\n');
                 res.end(util.inspect({
                     fields: fields
                 }));
                 console.log("Todo guay todo chachi")
-            }else{
+            } else {
                 res.writeHead(400, {'content-type': 'text/plain'});
                 res.write("Error: " + err);
                 res.end();
-                console.log("Error: " + err);;
+                console.log("Error: " + err);
+                ;
             }
         });
     }

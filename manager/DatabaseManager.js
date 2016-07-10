@@ -1,10 +1,17 @@
 /**
- * Author : Alberto de la Fuente Cruz
+ * Author : Ricardo
  *
  * Database manager
  */
 var mongoose    = require('mongoose');
-var config      = require('../Eventfly.properties');
+var config      = require('../server.properties');
+
+/** Now we get our mongoose model images */
+var User                = require('../model/User'),
+    Tag                 = require('../model/Tag'),
+    Event               = require('../model/Event'),
+    Message             = require('../model/Message'),
+    Response            = require('../model/Response');
 
 module.exports = {
     connectDB: function () {

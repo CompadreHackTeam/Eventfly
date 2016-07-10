@@ -11,7 +11,9 @@ var Schema = mongoose.Schema;
 module.exports = mongoose.model('user', new Schema(({
     /* idUser (objectID) */
 
-    name : String,
-    password : String,
-    email : String
+    id: Number,
+    name: String,
+    password: String,
+    email: String,
+    gcm_token: String
 })));
