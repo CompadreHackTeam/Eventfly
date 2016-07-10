@@ -6,7 +6,6 @@
 
 var mongoose = require("mongoose");
 var Event = mongoose.model('event');
-var Tag = mongoose.model('tag');
 var eventRepository = require("./../repository/EventRepository.js");
 
 var formidable = require("formidable");
@@ -15,16 +14,15 @@ var util = require("util");
 /**
  * @method getEvents
  * returns all events saved in the BD
- * TODO : Move to repository
  */
 exports.getEvents = function (req, res) {
-
-    Event.find({}, function (err, events) {
-        if (err != null) { // if an error occurred
+    var events;
+    eventRepository.findEvents(events, function(err, events){
+        if(err != null){ // if an error occurred
             res.writeHead(400, {'content-type': 'text/plain'});
             res.write("Error: " + err);
             res.end();
-        } else {
+        }else{
             res.send(events);
         }
     });
@@ -39,19 +37,13 @@ exports.getEventsByLocation = function (req, res) {
     var latitude = req.params.latitude; //latitude from param
     var longitude = req.params.longitude; //longitude from param
     var radius = parseInt(req.params.radius); //radious of the maxDistance
-
-    Event.find({
-        "loc": {
-            $near: {
-                $geometry: {type: "Point", coordinates: [latitude, longitude]}, $maxDistance: radius
-            }
-        }
-    }, function (err, events) {
-        if (err != null) { // if an error occurred
+    var events;
+    eventRepository.findNearEvents(latitude, longitude, radius, events, function(err, events){
+        if(err != null){
             res.writeHead(400, {'content-type': 'text/plain'});
             res.write("Error: " + err);
             res.end();
-        } else {
+        }else{
             res.send(events);
         }
     });
