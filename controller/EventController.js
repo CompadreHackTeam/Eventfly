@@ -7,6 +7,7 @@
 var mongoose = require("mongoose");
 var Event = mongoose.model('event');
 var eventRepository = require("./../repository/EventRepository.js");
+var eventValidator = require("./../validator/EventValidator.js");
 
 var formidable = require("formidable");
 var util = require("util");
@@ -66,64 +67,31 @@ exports.deleteEvents = function (req, res) {
  * @method postEvent
  * add a event from a form to the BD
  */
-exports.postEvent = function (req, res) {
+exports.postEvent = function (req, res){
 
     var fields = req.body;
-    var revalidator = require('revalidator');
-    if (revalidator.validate(fields,
-            {
-                properties: {
-                    name: {
-                        type: 'String',
-                        required: true,
-                        allowEmpty: false
-                    },
-                    latitude: {
-                        type: 'Number',
-                        required: true,
-                        allowEmpty: false
-                    },
-                    longitude: {
-                        type: 'Number',
-                        required: true,
-                        allowEmpty: false
-                    },
-                    radius: {
-                        type: 'Number',
-                        required: true,
-                        allowEmpty: false
-                    },
-                    type: {
-                        type: 'String',
-                        required: false,
-                        allowEmpty: true
-                    },
-                    tagList: {
-                        //type : 'String', si intento ponerlo en formato de lista '[String]' peta
-                        required: false,
-                        allowEmpty: false
-                    }
+
+    eventValidator.eventValidator(fields, function(err){
+        if(err != null){//If validator returns error
+            res.writeHead(400, {'content-type': 'text/plain'});
+            res.write("Error: Invalid JSON object");
+            res.end();
+        }else{//If validator says ok to JSON object we save it in mongo
+            eventRepository.saveEvent(fields, function (fields, err) {
+                if (err != null) {
+                    res.writeHead(200, {'content-type': 'text/plain'});
+                    res.write('Saved in MongoDB : \n\n');
+                    res.end(util.inspect({
+                        fields: req.body
+                    }));
+                } else {
+                    res.writeHead(400, {'content-type': 'text/plain'});
+                    res.write("Error: " + err);
+                    res.end();
+                    console.log("Error: " + err);
                 }
-            }).valid == false) {
-        res.writeHead(400, {'content-type': 'text/plain'});
-        res.write("Error: invalid JSON object");
-        res.end();
-    } else {
-        eventRepository.saveEvent(fields, function (fields, err) {
-            if (err != null) {
-                res.writeHead(200, {'content-type': 'text/plain'});
-                res.write('Guardado en MongoDB : \n\n');
-                res.end(util.inspect({
-                    fields: fields
-                }));
-                console.log("Todo guay todo chachi")
-            } else {
-                res.writeHead(400, {'content-type': 'text/plain'});
-                res.write("Error: " + err);
-                res.end();
-                console.log("Error: " + err);
-                ;
-            }
-        });
-    }
+            });
+        }
+    });
 };
+
