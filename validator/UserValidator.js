@@ -1,7 +1,7 @@
 /**
  * Created by alberto on 11/07/16.
  *
- * Event JSON validator
+ * User JSON validator
  */
 
 var revalidator = require('revalidator');
