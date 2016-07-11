@@ -24,7 +24,8 @@ var express             = require("express"),
     eventController     = require('./controller/EventController'),
     tagController       = require('./controller/TagController'),
     messageController   = require('./controller/MessageController'),
-    responseController  = require('./controller/ResponseController');
+    responseController  = require('./controller/ResponseController'),
+    userController      = require('./controller/UserController');
 
 /** INIT */
 
@@ -61,6 +62,14 @@ app.use('/api', controller);
 //                 API ROUTES
 *****************************************************/
 
+/** <User route> */
+controller.route('/registerUser')
+    .post(userController.registerUser);
+
+controller.route('/authenticateUser')
+    .post(userController.authenticateUser);
+/** </User route> */
+
 /** <Events route> */
 controller.route('/getEvents')
     .get(eventController.getEvents);
@@ -78,10 +87,13 @@ controller.route('/postEvent')
 /** <Tags route> */
 controller.route('/getTags')
     .get(tagController.getTags);
+
 controller.route('/postTag')
     .post(tagController.postTag);
+
 controller.route('/deleteTags')
     .get(tagController.deleteTags);
+
 /** </Tags route> */
 
 /** <Messages route> */

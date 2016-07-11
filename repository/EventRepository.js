@@ -11,7 +11,7 @@ var Tag = mongoose.model('tag');
 /**
  * findEvents, returns all the events saved in mongo
  */
-exports.findEvents = function(obj, callback){
+exports.findEvents = function(callback){
 
     Event.find({}, function (err, obj) {
         if (err != null) { // if an error occurred
@@ -26,7 +26,7 @@ exports.findEvents = function(obj, callback){
 /**
  * findEventsByLocation, returns all events that are inside a certain radius near a latitude and longitude
  */
-exports.findNearEvents = function(latitude, longitude, radius, obj, callback){
+exports.findNearEvents = function(latitude, longitude, radius, callback){
     Event.find({
         "loc": {
             $near: {
@@ -40,7 +40,7 @@ exports.findNearEvents = function(latitude, longitude, radius, obj, callback){
             callback(null, events);
         }
     });
-}
+};
 
 /**
  * saveEvent, save an event in mongo

@@ -17,8 +17,8 @@ var util = require("util");
  * returns all events saved in the BD
  */
 exports.getEvents = function (req, res) {
-    var events;
-    eventRepository.findEvents(events, function(err, events){
+
+    eventRepository.findEvents(function(err, events){
         if(err != null){ // if an error occurred
             res.writeHead(400, {'content-type': 'text/plain'});
             res.write("Error: " + err);
@@ -38,8 +38,8 @@ exports.getEventsByLocation = function (req, res) {
     var latitude = req.params.latitude; //latitude from param
     var longitude = req.params.longitude; //longitude from param
     var radius = parseInt(req.params.radius); //radious of the maxDistance
-    var events;
-    eventRepository.findNearEvents(latitude, longitude, radius, events, function(err, events){
+
+    eventRepository.findNearEvents(latitude, longitude, radius, function(err, events){
         if(err != null){
             res.writeHead(400, {'content-type': 'text/plain'});
             res.write("Error: " + err);
