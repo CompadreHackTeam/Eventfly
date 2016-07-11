@@ -1,33 +1,29 @@
 /**
- * This is the main app for GeoMessage app.js
- *
- * @type {*|exports|module.exports}
+ * Main class for EventFly Server
  */
 
-    /** Required dependencies */
-var express             = require("express"),
-    app                 = express(),
-    bodyParser          = require("body-parser"),
-    methodOverride      = require("method-override"),
-    auth                = require("http-auth"),
+/** Required dependencies */
+var express = require("express"),
+    app = express(),
+    bodyParser = require("body-parser"),
+    methodOverride = require("method-override"),
+    auth = require("http-auth"),
 
     /** Managers */
-    DatabaseManager     = require('./manager/DatabaseManager.js'),
+    DatabaseManager = require('./manager/DatabaseManager.js'),
 
     /** Services */
     NotificationService = require('./service/NotificationService.js'),
 
     /** Config */
-    config              = require('./server.properties'),
+    config = require('./server.properties'),
 
     /** Controllers Summoning */
-    eventController     = require('./controller/EventController'),
-    tagController       = require('./controller/TagController'),
-    messageController   = require('./controller/MessageController'),
-    responseController  = require('./controller/ResponseController'),
-    userController      = require('./controller/UserController');
-
-/** INIT */
+    eventController = require('./controller/EventController'),
+    tagController = require('./controller/TagController'),
+    messageController = require('./controller/MessageController'),
+    responseController = require('./controller/ResponseController'),
+    userController = require('./controller/UserController');
 
 /** Create the database connection */
 DatabaseManager.connectDB();
@@ -59,8 +55,8 @@ app.use(controller);
 app.use('/api', controller);
 
 /*****************************************************
-//                 API ROUTES
-*****************************************************/
+ //                 API ROUTES
+ *****************************************************/
 
 /** <User route> */
 controller.route('/registerUser')
@@ -93,14 +89,15 @@ controller.route('/postTag')
 
 controller.route('/deleteTags')
     .get(tagController.deleteTags);
-
 /** </Tags route> */
 
 /** <Messages route> */
 controller.route('/getMessages')
     .get(messageController.getMessages);
+
 controller.route('/getMessage/:eventId')
     .get(messageController.getMessageByEvent);
+
 controller.route('/postMessage')
     .post(messageController.postMessage);
 /** </Messages route> */
@@ -108,8 +105,10 @@ controller.route('/postMessage')
 /** <Responses route> */
 controller.route('/getResponses')
     .get(responseController.getResponses);
+
 controller.route('/getResponse/:messageId')
     .get(responseController.getResponseByMessage);
+
 controller.route('/postResponse')
     .post(responseController.postResponse);
 /** </Responses route> */
