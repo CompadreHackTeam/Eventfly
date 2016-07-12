@@ -1,39 +1,47 @@
 /**
- * This is the main app for GeoMessage app.js
- *
- * @type {*|exports|module.exports}
+ * Main class for EventFly Server
  */
-var express             = require("express"),
-    app                 = express(),
-    bodyParser          = require("body-parser"),
-    methodOverride      = require("method-override"),
-    DatabaseManager     = require('./manager/databasemanager.js'),
-    config              = require('./Eventfly.properties'),
-    auth                = require("http-auth"),
 
-    /* Now we get our mongoose model images */
-    User                = require('./model/user'),
-    Tag                 = require('./model/tag'),
-    Event               = require('./model/event'),
-    Message             = require('./model/message'),
-    Response            = require('./model/response'),
+/** Required dependencies */
+var express = require("express"),
+    app = express(),
+    bodyParser = require("body-parser"),
+    methodOverride = require("method-override"),
+    auth = require("http-auth"),
 
-    /* And now summon the controllers */
-    eventController     = require('./controller/eventController');
-    tagController       = require('./controller/tagController');
-    messageController   = require('./controller/messageController');
-    responseController  = require('./controller/responseController');
+    /** Managers */
+    DatabaseManager = require('./manager/DatabaseManager.js'),
 
-// Create the database connection
+    /** Services */
+    NotificationService = require('./service/NotificationService.js'),
+
+    /** Config */
+    config = require('./server.properties'),
+
+    /** Controllers Summoning */
+    eventController = require('./controller/EventController'),
+    tagController = require('./controller/TagController'),
+    messageController = require('./controller/MessageController'),
+    responseController = require('./controller/ResponseController'),
+    userController = require('./controller/UserController');
+
+/** Create the database connection */
 DatabaseManager.connectDB();
 
-// Middlewares
+/** GCM notifications service setup */
+NotificationService.setup();
+
+/** Express Controller */
+var controller = express.Router();
+
+/** Middlewares */
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(methodOverride());
-app.use(express.static(__dirname + "/public/"));
+// This line is unnecessary if we dont server a index.html
+//app.use(express.static(__dirname + "/public/"));
 
-//  Setting in eventfy.properties file the global security, in server.auth the authentication data
+/**  Setting in eventfy.properties file the global security, in server.auth the authentication data */
 if (config.globalsecurity) {
     var basic = auth.basic({
         realm: "Backend Area.",
@@ -41,15 +49,24 @@ if (config.globalsecurity) {
     });
     app.use(auth.connect(basic));
 }
-var controller = express.Router();
+/** Controller */
 app.use(controller);
-// Add /api after port and before the methods of route
+/** Add /api after port and before the methods of route */
 app.use('/api', controller);
 
+/*****************************************************
+ //                 API ROUTES
+ *****************************************************/
 
-// API routes
+/** <User route> */
+controller.route('/registerUser')
+    .post(userController.registerUser);
 
-/* <Events route> */
+controller.route('/authenticateUser')
+    .post(userController.authenticateUser);
+/** </User route> */
+
+/** <Events route> */
 controller.route('/getEvents')
     .get(eventController.getEvents);
 
@@ -59,41 +76,45 @@ controller.route('/getEventsByLocation/:latitude/:longitude/:radius')
 controller.route('/deleteEvents')
     .get(eventController.deleteEvents);
 
-controller.route('/postEvent')
-    .post(eventController.postEvent);
+controller.route('/createEvent')
+    .post(eventController.createEvent);
+/** </Events route> */
 
-
-/* </Events route> */
-
-/* <Tags route> */
+/** <Tags route> */
 controller.route('/getTags')
     .get(tagController.getTags);
-controller.route('/postTag')
-    .post(tagController.postTag);
+
+controller.route('/createTag')
+    .post(tagController.createTag);
+
 controller.route('/deleteTags')
     .get(tagController.deleteTags);
-/* </Tags route> */
+/** </Tags route> */
 
-/* <Messages route> */
+/** <Messages route> */
 controller.route('/getMessages')
     .get(messageController.getMessages);
+
 controller.route('/getMessage/:eventId')
     .get(messageController.getMessageByEvent);
-controller.route('/postMessage')
-    .post(messageController.postMessage);
-/* </Messages route> */
 
-/* <Responses route> */
+controller.route('/createMessage')
+    .post(messageController.createMessage);
+/** </Messages route> */
+
+/** <Responses route> */
 controller.route('/getResponses')
     .get(responseController.getResponses);
+
 controller.route('/getResponse/:messageId')
     .get(responseController.getResponseByMessage);
-controller.route('/postResponse')
-    .post(responseController.postResponse);
-/* </Responses route> */
+
+controller.route('/createResponse')
+    .post(responseController.createResponse);
+/** </Responses route> */
 
 
-// Start server
+/** Start server */
 app.listen(config.port, function () {
     console.log("*** Server Running on " + config.port);
 });

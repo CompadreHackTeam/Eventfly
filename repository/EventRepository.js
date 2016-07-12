@@ -4,34 +4,91 @@
  * Event model repository
  * */
 
-var mongoose = require("mongoose");
-var Event = mongoose.model('event');
-var Tag = mongoose.model('tag');
+var mongoose    = require('mongoose');
+var Event       = mongoose.model('event');
+var Tag         = mongoose.model('tag');
 
 /**
  * findEvents, returns all the events saved in mongo
  */
-exports.findEvents = function(obj, callback){
+exports.findEvents = function(callback){
 
-   Event.find({}, function (err, obj) {
-       if (err != null) { // if an error occurred
-           callback(err, obj);
-       } else {
-           callback(null, obj);
-       }
+    Event.find({}, function (err, obj) {
+        if (err != null) { // if an error occurred
+            callback(err, obj);
+        } else { 
+            callback(null, obj);
+        }
     });
-
 };
 
 /**
- * findEventsByLocation, returns all events that are close to a latitude and a longitude
+ * findEventsByLocation, returns all events that are inside a certain radius near a latitude and longitude
  */
-exports.findEventsNear = function(coordinates, obj, callback){
-
-}
+exports.findNearEvents = function(latitude, longitude, radius, callback){
+    Event.find({
+        "loc": {
+            $near: {
+                $geometry: {type: "Point", coordinates: [latitude, longitude]}, $maxDistance: radius
+            }
+        }
+    }, function (err, events) {
+        if (err != null) { // if an error occurred
+           callback(err, events)
+        } else {
+            callback(null, events);
+        }
+    });
+};
 
 /**
  * saveEvent, save an event in mongo
+ * @param obj, event params
+ * @param callback
+ */
+exports.saveEvent =  function(obj, callback){
+    if(obj != null){
+        for (var i in obj.tagList) {
+            obj.tagList[i] = obj.tagList[i].toLowerCase();
+        }
+        var event = new Event({
+            name: obj.name,
+            latitude: obj.latitude,
+            longitude: obj.longitude,
+            loc: {
+                type: "Point",
+                coordinates: [obj.latitude, obj.longitude],
+                index: String
+            },
+            type: obj.type,
+            radius: obj.radius,
+            owner: 1,
+            tagList: obj.tagList
+            /*messageList: */
+
+        });
+
+        //Now we save (if not exists) the tags associated to the event previously saved
+        for (var i in obj.tagList) {
+            saveTagsFromEvent(obj.tagList[i]);
+        }
+        event.save(function (err) {
+            if (err != null) {
+                callback(err, null);
+            }else{
+                callback(null, event);
+            }
+        });
+    }
+    else{
+        callback(new Error(), obj);
+    }
+};
+
+/**
+ * saveEvent, save an event in mongo
+ * @param obj, event params
+ * @param callback
  */
 exports.saveEvent =  function(obj, callback){
     if(obj != null){
