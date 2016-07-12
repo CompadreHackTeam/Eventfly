@@ -10,6 +10,5 @@ var Schema = mongoose.Schema;
 //Set up a mongoose model and pass it using module.exports
 module.exports = mongoose.model('tag', new Schema(({
     /* idTag (objectID) */
-
     name : String
 })));

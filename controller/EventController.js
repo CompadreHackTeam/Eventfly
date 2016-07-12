@@ -47,6 +47,20 @@ exports.getEventsByLocation = function (req, res) {
     });
 };
 
+exports.getEventsByTag = function(req, res){
+
+
+    eventRepository.findEventsByTag(req.params.tagName, function(err, events){
+        if(err != null){
+            res.writeHead(400, {'content-type': 'text/plain'});
+            res.write("Error: " + err);
+            res.end();
+        }else{
+            res.send(events);
+        }
+    })
+};
+
 /**
  * Delete all events
  * TODO : REMOVE IN PRODUCTION

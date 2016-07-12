@@ -73,6 +73,9 @@ controller.route('/getEvents')
 controller.route('/getEventsByLocation/:latitude/:longitude/:radius')
     .get(eventController.getEventsByLocation);
 
+controller.route('/getEventsByTag/:tagName')
+    .get(eventController.getEventsByTag)
+
 controller.route('/deleteEvents')
     .get(eventController.deleteEvents);
 

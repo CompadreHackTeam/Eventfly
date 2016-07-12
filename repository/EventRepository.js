@@ -41,6 +41,21 @@ exports.findNearEvents = function(latitude, longitude, radius, callback){
     });
 };
 
+exports.findEventsByTag = function(tagName, callback){
+
+    Event.find({
+        tagList: { "$in" : [tagName.toLowerCase()]}
+    }, function(err, obj){
+        if(err != null){
+            console.log(err);
+            callback(err, null);
+        }else{
+            console.log(obj);
+            callback(null, obj);
+        }
+    });
+};
+
 /**
  * saveEvent, save an event in mongo
  * @param obj, event params
@@ -149,4 +164,5 @@ function saveTagsFromEvent(tagName) {
             });
         }
     });
-}
+};
+
