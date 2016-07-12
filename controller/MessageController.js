@@ -6,7 +6,6 @@
 
 var messageRepository   = require('./../repository/MessageRepository.js');
 var messageValidator    = require('./../validator/MessageValidator');
-
 var util                = require('util');
 
 
@@ -16,8 +15,7 @@ var util                = require('util');
  */
 exports.getMessages = function(req, res){
 
-    var messages;
-    messageRepository.findMessages(messages, function (err, messages){
+    messageRepository.findMessages(function (err, messages){
         if(err != null){
             res.writeHead(400, {'content-type' : 'text/plain'});
             res.write("Error: " + err);
@@ -33,9 +31,8 @@ exports.getMessages = function(req, res){
  * returns messages of a certain eventId 
  */
 exports.getMessageByEvent = function(req, res){
-    var idEvent = req.params.eventId;
-    var messages;
-    messageRepository.findMessageByIdEvent(idEvent, messages, function(err, messages){
+
+    messageRepository.findMessageByIdEvent(req.params.eventId, function(err, messages){
         if(err != null){
             res.writeHead(400, {'content-type' : 'text/plain'});
             res.write("Error: " + err);

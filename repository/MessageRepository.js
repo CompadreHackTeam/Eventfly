@@ -2,34 +2,32 @@
  * Author : Alberto de la Fuente Cruz
  *
  * Message model repository
- * */
+ */
 
 var mongoose    = require("mongoose");
 var Message     = mongoose.model('message');
 
 /**
- * findMessages, returns all the messages saved in mongo
- * @param obj, all messages from mongo
+ * Returns all the messages saved in mongo
  * @param callback
  */
-exports.findMessages = function(obj, callback){
-    
-    Message.find({}, function(err, obj){
-        if(err != null){
+exports.findMessages = function (callback) {
+
+    Message.find({}, function (err, obj) {
+        if (err != null) {
             callback(err, obj);
-        }else{
+        } else {
             callback(null, obj);
         }
     });
 };
 
 /**
- * findMessagesByIdEvent, returns all the messages from an event
+ * Returns all the messages from an event
  * @param idEvent, mongoId of the event
- * @param obj, all messages from the event
- * @param callback 
+ * @param callback
  */
-exports.findMessageByIdEvent = function(idEvent, obj, callback){
+exports.findMessageByIdEvent = function (idEvent, callback) {
 
     Message.find({idEvent: idEvent}, function (err, obj) {
         if (err != null) {
@@ -40,20 +38,26 @@ exports.findMessageByIdEvent = function(idEvent, obj, callback){
     });
 };
 
-exports.saveMessage = function(obj, callback){
-    
+/**
+ * This method save a Message binded to an user and event
+ * @param obj       The message to save
+ * @param callback  The callback for response
+ */
+exports.saveMessage = function (obj, callback) {
+
     var message = new Message({
-        idEvent         : obj.idEvent,
-        idOwner         : 1, //TODO change when user are added
-        likes           : 0, //New message, 0 likes
-        body            : obj.body
+        idEvent: obj.idEvent,
+        idOwner: 1, //TODO change when user are added
+        likes: 0, //New message, 0 likes
+        body: obj.body
     });
-    message.save(function(err){
-        if(err != null){
-           callback(err, null);
-        }else{
+
+    message.save(function (err) {
+        if (err != null) {
+            callback(err, null);
+        } else {
             callback(null, message);
         }
 
     });
-}
+};
