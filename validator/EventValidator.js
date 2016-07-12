@@ -1,12 +1,18 @@
 /**
- * Created by alberto on 11/07/16.
+ * Author : Alberto de la Fuente Cruz
  * 
  * Event JSON validator 
  */
 
 var revalidator = require('revalidator');
 
-exports.eventValidator = function (jsonObj, callback){
+/**
+ * validateEvent
+ * Validates an event from a Json object if it's well formed
+ * @param jsonObj, event object
+ * @param callback
+ */
+exports.validateEvent = function (jsonObj, callback){
     
     if (revalidator.validate(jsonObj,
             {

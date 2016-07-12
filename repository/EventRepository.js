@@ -20,7 +20,6 @@ exports.findEvents = function(callback){
             callback(null, obj);
         }
     });
-
 };
 
 /**
@@ -75,9 +74,9 @@ exports.saveEvent =  function(obj, callback){
         }
         event.save(function (err) {
             if (err != null) {
-                callback(err, obj);
+                callback(err, null);
             }else{
-                callback(null, obj);
+                callback(null, event);
             }
         });
     }

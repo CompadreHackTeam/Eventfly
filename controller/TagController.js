@@ -4,62 +4,72 @@
  * Tag model controller for server
  * */
 
+var tagRepository = require('./../repository/TagRepository');
+var tagValidator    = require('./../validator/TagValidator');
 
-var mongoose    = require("mongoose");
-var Tag         = mongoose.model('tag');
-
-var formidable  = require("formidable");
 var util        = require("util");
 
 /**
- * @method getTags
+ * getTags
  * Returns all the tags saved in mongoDB
  */
 exports.getTags = function(req, res){
 
-    Tag.find({}, function(err, tags){
+    tagRepository.getTags(function(err, tags){
+       if(err != null){
+           res.send("Error: "  + err);
+           res.end();
+       }else{
+           res.send(tags);
+       }
+    });
+};
+
+/**
+ * CreateTag
+ * Save a tag in mongoDB from a json object
+ */
+exports.createTag = function(req, res){
+
+    var fields = req.body;
+
+    tagValidator.validateTag(fields, function(err){
         if(err != null){
-            res.send("Error: "  + err);
+            res.writeHead(400, {'content-type': 'text/plain'});
+            res.write("Error: Invalid JSON object");
             res.end();
         }else{
-            res.send(tags);
+            tagRepository.saveTag(fields, function(err, tagObj){
+                if(err != null){
+                    res.writeHead(400, {'content-type' : 'text/plain'});
+                    res.write("Error: " + err);
+                    res.end();
+                }else{
+                    res.writeHead(200, {'content-type' : 'text/plain'});
+                    res.write('Saved in MongoDB : \n\n');
+                    res.end(util.inspect({
+                        fields : tagObj
+                    }));
+                }
+            });
         }
     });
 };
 
 /**
- * @method postTag
- * Save a tag in mongoDB from a json object
+ * deleteTags
+ * delete all tags saved in the BD
  */
-exports.postTag = function(req, res){
+exports.deleteTags = function (req, res) {
 
-    var fields = req.body;
-    var tag = new Tag({
-        name    : fields.name.toLocaleLowerCase() //toLowerCase for standard
-    });
-
-    tag.save(function(err){
+    tagRepository.deleteTags(function(err){
         if(err != null){
             res.writeHead(400, {'content-type' : 'text/plain'});
             res.write("Error: " + err);
             res.end();
         }else{
-            res.writeHead(200, {'content-type' : 'text/plain'});
-            res.write('Guardado en MongoDB : \n\n');
-            res.end(util.inspect({
-                fields : fields
-            }));
+            res.status(200).json({status: "All Tags deleted"});
+
         }
     });
-};
-
-/**
- * @method deleteTags
- * delete all tags saved in the BD
- */
-exports.deleteTags = function (req, res) {
-    Tag.remove({}, function (err, result) {
-        if(err) console.log("Error: " + err);
-    });
-    res.status(200).json({status: "All Tags deleted"});
 };

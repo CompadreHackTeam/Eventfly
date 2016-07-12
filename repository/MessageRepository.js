@@ -39,3 +39,21 @@ exports.findMessageByIdEvent = function(idEvent, obj, callback){
         }
     });
 };
+
+exports.saveMessage = function(obj, callback){
+    
+    var message = new Message({
+        idEvent         : obj.idEvent,
+        idOwner         : 1, //TODO change when user are added
+        likes           : 0, //New message, 0 likes
+        body            : obj.body
+    });
+    message.save(function(err){
+        if(err != null){
+           callback(err, null);
+        }else{
+            callback(null, message);
+        }
+
+    });
+}

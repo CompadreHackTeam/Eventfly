@@ -76,16 +76,16 @@ controller.route('/getEventsByLocation/:latitude/:longitude/:radius')
 controller.route('/deleteEvents')
     .get(eventController.deleteEvents);
 
-controller.route('/postEvent')
-    .post(eventController.postEvent);
+controller.route('/createEvent')
+    .post(eventController.createEvent);
 /** </Events route> */
 
 /** <Tags route> */
 controller.route('/getTags')
     .get(tagController.getTags);
 
-controller.route('/postTag')
-    .post(tagController.postTag);
+controller.route('/createTag')
+    .post(tagController.createTag);
 
 controller.route('/deleteTags')
     .get(tagController.deleteTags);
@@ -98,8 +98,8 @@ controller.route('/getMessages')
 controller.route('/getMessage/:eventId')
     .get(messageController.getMessageByEvent);
 
-controller.route('/postMessage')
-    .post(messageController.postMessage);
+controller.route('/createMessage')
+    .post(messageController.createMessage);
 /** </Messages route> */
 
 /** <Responses route> */
@@ -109,8 +109,8 @@ controller.route('/getResponses')
 controller.route('/getResponse/:messageId')
     .get(responseController.getResponseByMessage);
 
-controller.route('/postResponse')
-    .post(responseController.postResponse);
+controller.route('/createResponse')
+    .post(responseController.createResponse);
 /** </Responses route> */
 
 

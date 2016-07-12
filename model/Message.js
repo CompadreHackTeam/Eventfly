@@ -14,7 +14,7 @@ module.exports = mongoose.model('message', new Schema({
     idEvent : String,
 
     /* idOwner, objectID of the user that defined the message */
-    idOwner : Number,
+    idOwner : String,
 
     /* responseList, a list of objectIDs with all the responses of a certain message */
     responseList : [ String ],

@@ -4,73 +4,76 @@
  * Response model controller for server
  * */
 
+var responseRepository  = require('./../repository/ResponseRepository');
+var responseValidator   = require('./../validator/ResponseValidator');
 
-var mongoose    = require("mongoose");
-var Response    = mongoose.model('response');
-
-var formidable  = require("formidable");
-var util        = require("util");
+var util                = require('util');
 
 
 /**
- * @method getRespones
- * Returns all the Responses of Messages saved in mongoDB
+ * getRespones
+ * Returns all the Responses to messages
  */
 exports.getResponses = function(req, res){
 
-    Response.find({}, function(err, responses){
+    responseRepository.findResponses(function(err, obj){
         if(err != null){
             res.writeHead(400, {'content-type' : 'text/plain'});
             res.write("Error: " + err);
             res.end();
         }else{
-            res.send(responses);
+            res.send(obj);
         }
     });
 };
 
 
 /**
- * @method getResponseByMessage
+ * getResponseByMessage
  * Returns all Responses of a certain message saved in mongoDB
  */
 exports.getResponseByMessage = function(req, res){
-    var messageId = req.params.messageId;
-    Response.find({idMessage: messageId}, function (err, response) {
+    var msgId = req.params.messageId;
+
+    responseRepository.findResponseByMsgId(msgId, function(err, responses){
         if (err != null) {
             res.writeHead(400, {'content-type' : 'text/plain'});
             res.write("Error: " + err);
             res.end();
         } else {
-            res.send(response);
+            res.send(responses);
         }
     });
 };
 
 /**
- * @method postResponse
+ * createResponse
  * Saves in mongoDB a response to a message
  */
-exports.postResponse = function(req, res){
+exports.createResponse = function(req, res){
     
     var fields = req.body;
-    
-    var response = new Response({
-        idMessage   : fields.idMessage,
-        idOwner     : 1,
-        body        : fields.body
-    })
-    response.save(function(err){
+
+    responseValidator.validateResponse(fields, function(err){
         if(err != null){
             res.writeHead(400, {'content-type' : 'text/plain'});
-            res.write("Error: " + err);
+            res.write("Error: Invalid JSON object");
             res.end();
         }else{
-            res.writeHead(200, {'content-type' : 'text/plain'});
-            res.write('Guardado en MongoDB: \n\n');
-            res.end(util.inspect({
-                fields: fields
-            }));
+            responseRepository.saveResponse(fields, function(err, obj){
+                if(err != null){
+                    res.writeHead(400, {'content-type' : 'text/plain'});
+                    res.write("Error: " + err);
+                    res.end();
+                }else{
+                    res.writeHead(200, {'content-type' : 'text/plain'});
+                    res.write('Guardado en MongoDB: \n\n');
+                    res.end(util.inspect({
+                        fields: obj
+                    }));
+                }
+            });
         }
     });
+
 };

@@ -11,8 +11,6 @@ var userValidator = require("./../validator/UserValidator.js");
  * @method getEvents
  * returns all events saved in the BD
  */
-
-
 exports.registerUser = function (req, res) {
 
     var fields = req.body;

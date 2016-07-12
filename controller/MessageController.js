@@ -4,13 +4,9 @@
  * Message model controller for server
  * */
 
+var messageRepository   = require('./../repository/MessageRepository.js');
+var messageValidator    = require('./../validator/MessageValidator');
 
-var mongoose            = require('mongoose');
-var Message             = mongoose.model('message');
-var messageRepository   = require("./../repository/MessageRepository.js");
-
-
-var formidable          = require('formidable');
 var util                = require('util');
 
 
@@ -51,33 +47,32 @@ exports.getMessageByEvent = function(req, res){
 };
 
 /**
- * @method 
- * Save in mongoDB a message from a Json objecto
+ * Create Message
+ * Add to mongo a messages associated to an event from a JSON object
  */
-exports.postMessage = function(req, res){
+exports.createMessage = function(req, res){
    
     var fields = req.body;
     
-    var message = new Message({
-        idEvent         : fields.idEvent,
-        idOwner         : 1,
-        //TODO responseList    : wat?
-        likes           : 0, //New message, 0 likes
-        body            : fields.body
-    });
-    
-    message.save(function(err){
+    messageValidator.validateMessage(fields, function(err){
         if(err != null){
-            res.writeHead(400, {'content-type' : 'text/plain'});
-            res.write("Error: " + err);
-            res.end();
+            res.writeHead(400, {'content-type': 'text/plain'});
+            res.write("Error: Invalid JSON object");
+            res.end();  
         }else{
-            res.writeHead(200, {'content-type' : 'text/plain'});
-            res.write('Guardado en MongoDB: \n\n');
-            res.end(util.inspect({
-                fields: fields
-            }));
+            messageRepository.saveMessage(fields, function(err, obj){
+                if(err != null){
+                    res.writeHead(400, {'content-type' : 'text/plain'});
+                    res.write("Error: " + err);
+                    res.end();
+                }else{
+                    res.writeHead(200, {'content-type': 'text/plain'});
+                    res.write("Saved in MongoDB: \n\n");
+                    res.end(util.inspect({
+                        fields : obj
+                    }));
+                }
+            })
         }
-                
     });
 };
