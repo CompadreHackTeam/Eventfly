@@ -40,16 +40,20 @@ exports.findNearEvents = function(latitude, longitude, radius, callback){
     });
 };
 
+/**
+ * findEventsByTag
+ * returns all the events associated to a tag
+ * @param tagName, tag name that we are searching for
+ * @param callback
+ */
 exports.findEventsByTag = function(tagName, callback){
 
     Event.find({
         tagList: { "$in" : [tagName.toLowerCase()]}
     }, function(err, obj){
         if(err != null){
-            console.log(err);
             callback(err, null);
         }else{
-            console.log(obj);
             callback(null, obj);
         }
     });

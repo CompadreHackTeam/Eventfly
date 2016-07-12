@@ -47,8 +47,11 @@ exports.getEventsByLocation = function (req, res) {
     });
 };
 
+/**
+ * getEventsByTag
+ * gets all the events that belongs to a tag
+ */
 exports.getEventsByTag = function(req, res){
-
 
     eventRepository.findEventsByTag(req.params.tagName, function(err, events){
         if(err != null){
