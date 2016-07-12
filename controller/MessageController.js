@@ -6,7 +6,9 @@
 
 var messageRepository   = require('./../repository/MessageRepository.js');
 var messageValidator    = require('./../validator/MessageValidator');
-var util                = require('util');
+
+var jwt                 = require('jsonwebtoken');
+var config              = require('../server.properties');
 
 
 /**
@@ -50,26 +52,35 @@ exports.getMessageByEvent = function(req, res){
 exports.createMessage = function(req, res){
    
     var fields = req.body;
-    
-    messageValidator.validateMessage(fields, function(err){
-        if(err != null){
-            res.writeHead(400, {'content-type': 'text/plain'});
-            res.write("Error: Invalid JSON object");
-            res.end();  
-        }else{
-            messageRepository.saveMessage(fields, function(err, obj){
-                if(err != null){
-                    res.writeHead(400, {'content-type' : 'text/plain'});
-                    res.write("Error: " + err);
+
+    jwt.verify(fields.token, config.jwt, function (err, decoded) {
+        if (err) {
+            res.writeHead(401, {'content-type': 'text/plain'});
+            res.write("Unauthorized");
+            res.end();
+        } else {
+            // Request OK
+            // Add the user ID to the Event Object
+            fields.owner = decoded.sub;
+
+            messageValidator.validateMessage(fields, function (err) {
+                if (err != null) {
+                    res.writeHead(400, {'content-type': 'text/plain'});
+                    res.write("Error: Invalid JSON object");
                     res.end();
-                }else{
-                    res.writeHead(200, {'content-type': 'text/plain'});
-                    res.write("Saved in MongoDB: \n\n");
-                    res.end(util.inspect({
-                        fields : obj
-                    }));
+                } else {
+                    messageRepository.saveMessage(fields, function (err, obj) {
+                        if (err != null) {
+                            res.writeHead(400, {'content-type': 'text/plain'});
+                            res.write("Error: " + err);
+                            res.end();
+                        } else {
+                            res.writeHead(200, {'content-type': 'text/plain'});
+                            res.end();
+                        }
+                    })
                 }
-            })
+            });
         }
     });
 };

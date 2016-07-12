@@ -8,7 +8,6 @@ var config      = require('../server.properties');
 
 /** Now we get our mongoose model images */
 var User                = require('../model/User'),
-    Tag                 = require('../model/Tag'),
     Event               = require('../model/Event'),
     Message             = require('../model/Message'),
     Response            = require('../model/Response');

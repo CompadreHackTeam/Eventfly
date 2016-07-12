@@ -14,7 +14,7 @@ module.exports = mongoose.model('response', new Schema({
     idMessage : String,
 
     /*idOwner, objectID of the user that posted the response */
-    idOwner : Number,
+    idOwner : String,
 
     date : {
         type : Date,

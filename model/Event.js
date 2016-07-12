@@ -12,7 +12,7 @@ module.exports = mongoose.model('event', new Schema({
     /* idEvent (objectID) */
 
     /* objectID of the user that created the event */
-    owner: Number,
+    owner: String,
 
     name: String,
     latitude: Number,

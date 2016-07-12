@@ -6,7 +6,6 @@
 
 var mongoose    = require('mongoose');
 var Event       = mongoose.model('event');
-var Tag         = mongoose.model('tag');
 
 /**
  * findEvents, returns all the events saved in mongo
@@ -62,7 +61,7 @@ exports.saveEvent =  function(obj, callback){
             },
             type: obj.type,
             radius: obj.radius,
-            owner: 1,
+            owner: obj.owner,
             tagList: obj.tagList
             /*messageList: */
 
@@ -84,51 +83,6 @@ exports.saveEvent =  function(obj, callback){
         callback(new Error(), obj);
     }
 };
-
-/**
- * saveEvent, save an event in mongo
- * @param obj, event params
- * @param callback
- */
-exports.saveEvent =  function(obj, callback){
-    if(obj != null){
-        for (var i in obj.tagList) {
-            obj.tagList[i] = obj.tagList[i].toLowerCase();
-        }
-        var event = new Event({
-            name: obj.name,
-            latitude: obj.latitude,
-            longitude: obj.longitude,
-            loc: {
-                type: "Point",
-                coordinates: [obj.latitude, obj.longitude],
-                index: String
-            },
-            type: obj.type,
-            radius: obj.radius,
-            owner: 1,
-            tagList: obj.tagList
-            /*messageList: */
-
-        });
-
-        //Now we save (if not exists) the tags associated to the event previously saved
-        for (var i in obj.tagList) {
-            saveTagsFromEvent(obj.tagList[i]);
-        }
-        event.save(function (err) {
-            if (err != null) {
-                callback(err, obj);
-            }else{
-                callback(null, obj);
-            }
-        });
-    }
-    else{
-        callback(new Error(), obj);
-    }
-};
-
 
 /**
  * @function saveTagsFromEvent

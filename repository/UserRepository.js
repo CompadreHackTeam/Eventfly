@@ -6,7 +6,6 @@
 
 var mongoose        = require("mongoose");
 var User            = mongoose.model('user');
-var _               = require('lodash');
 var jwt             = require('jsonwebtoken');
 var bcrypt          = require('bcryptjs');
 var config          = require('../server.properties');
@@ -66,7 +65,6 @@ exports.create = function (obj, callback) {
                     callback(null, newUser);
                 }
             });
-
         }
     });
 };

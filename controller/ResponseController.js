@@ -7,8 +7,8 @@
 var responseRepository  = require('./../repository/ResponseRepository');
 var responseValidator   = require('./../validator/ResponseValidator');
 
-var util                = require('util');
-
+var jwt                 = require('jsonwebtoken');
+var config              = require('../server.properties');
 
 /**
  * getRespones
@@ -54,23 +54,32 @@ exports.createResponse = function(req, res){
     
     var fields = req.body;
 
-    responseValidator.validateResponse(fields, function(err){
-        if(err != null){
-            res.writeHead(400, {'content-type' : 'text/plain'});
-            res.write("Error: Invalid JSON object");
+    jwt.verify(fields.token, config.jwt, function (err, decoded) {
+        if (err) {
+            res.writeHead(401, {'content-type': 'text/plain'});
+            res.write("Unauthorized");
             res.end();
-        }else{
-            responseRepository.saveResponse(fields, function(err, obj){
-                if(err != null){
-                    res.writeHead(400, {'content-type' : 'text/plain'});
-                    res.write("Error: " + err);
+        } else {
+            // Request OK
+            // Add the user ID to the Event Object
+            fields.owner = decoded.sub;
+
+            responseValidator.validateResponse(fields, function (err) {
+                if (err != null) {
+                    res.writeHead(400, {'content-type': 'text/plain'});
+                    res.write("Error: Invalid JSON object");
                     res.end();
-                }else{
-                    res.writeHead(200, {'content-type' : 'text/plain'});
-                    res.write('Guardado en MongoDB: \n\n');
-                    res.end(util.inspect({
-                        fields: obj
-                    }));
+                } else {
+                    responseRepository.saveResponse(fields, function (err, obj) {
+                        if (err != null) {
+                            res.writeHead(400, {'content-type': 'text/plain'});
+                            res.write("Error: " + err);
+                            res.end();
+                        } else {
+                            res.writeHead(200, {'content-type': 'text/plain'});
+                            res.end();
+                        }
+                    });
                 }
             });
         }

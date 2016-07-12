@@ -20,7 +20,6 @@ var express = require("express"),
 
     /** Controllers Summoning */
     eventController = require('./controller/EventController'),
-    tagController = require('./controller/TagController'),
     messageController = require('./controller/MessageController'),
     responseController = require('./controller/ResponseController'),
     userController = require('./controller/UserController');
@@ -79,17 +78,6 @@ controller.route('/deleteEvents')
 controller.route('/createEvent')
     .post(eventController.createEvent);
 /** </Events route> */
-
-/** <Tags route> */
-controller.route('/getTags')
-    .get(tagController.getTags);
-
-controller.route('/createTag')
-    .post(tagController.createTag);
-
-controller.route('/deleteTags')
-    .get(tagController.deleteTags);
-/** </Tags route> */
 
 /** <Messages route> */
 controller.route('/getMessages')

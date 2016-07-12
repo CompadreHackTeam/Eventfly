@@ -47,7 +47,7 @@ exports.saveMessage = function (obj, callback) {
 
     var message = new Message({
         idEvent: obj.idEvent,
-        idOwner: 1, //TODO change when user are added
+        idOwner: obj.owner,
         likes: 0, //New message, 0 likes
         body: obj.body
     });

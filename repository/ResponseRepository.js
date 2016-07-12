@@ -44,7 +44,7 @@ exports.saveResponse = function(responseObj, callback){
 
     var response = new Response({
         idMessage   : responseObj.idMessage,
-        idOwner     : 1,
+        idOwner     : responseObj.owner,
         body        : responseObj.body
     });
     
