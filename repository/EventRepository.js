@@ -4,9 +4,9 @@
  * Event model repository
  * */
 
-var mongoose = require("mongoose");
-var Event = mongoose.model('event');
-var Tag = mongoose.model('tag');
+var mongoose    = require('mongoose');
+var Event       = mongoose.model('event');
+var Tag         = mongoose.model('tag');
 
 /**
  * findEvents, returns all the events saved in mongo

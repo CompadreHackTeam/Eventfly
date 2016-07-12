@@ -5,7 +5,6 @@
  */
 
 var revalidator = require('revalidator');
-var util = require("util");
 
 exports.eventValidator = function (jsonObj, callback){
     

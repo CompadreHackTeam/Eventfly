@@ -12,6 +12,7 @@ var eventValidator = require("./../validator/EventValidator.js");
 var formidable = require("formidable");
 var util = require("util");
 
+//TODO refactor getEvents, postEvents -> createEvent etc
 /**
  * @method getEvents
  * returns all events saved in the BD

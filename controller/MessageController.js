@@ -5,20 +5,23 @@
  * */
 
 
-var mongoose    = require("mongoose");
-var Message     = mongoose.model('message');
+var mongoose            = require('mongoose');
+var Message             = mongoose.model('message');
+var messageRepository   = require("./../repository/MessageRepository.js");
 
-var formidable  = require("formidable");
-var util        = require("util");
+
+var formidable          = require('formidable');
+var util                = require('util');
 
 
 /**
- * @method getMessages
+ * getMessages
  * Returns all the Messages saved in mongoDB
  */
 exports.getMessages = function(req, res){
 
-    Message.find({}, function(err, messages){
+    var messages;
+    messageRepository.findMessages(messages, function (err, messages){
         if(err != null){
             res.writeHead(400, {'content-type' : 'text/plain'});
             res.write("Error: " + err);
@@ -34,14 +37,15 @@ exports.getMessages = function(req, res){
  * returns messages of a certain eventId 
  */
 exports.getMessageByEvent = function(req, res){
-    var eventId = req.params.eventId;
-    Message.find({idEvent: eventId}, function (err, message) {
-        if (err != null) {
+    var idEvent = req.params.eventId;
+    var messages;
+    messageRepository.findMessageByIdEvent(idEvent, messages, function(err, messages){
+        if(err != null){
             res.writeHead(400, {'content-type' : 'text/plain'});
             res.write("Error: " + err);
             res.end();
-        } else {
-            res.send(message);
+        }else{
+            res.send(messages);
         }
     });
 };
