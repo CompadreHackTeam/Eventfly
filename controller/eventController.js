@@ -17,13 +17,13 @@ var util = require("util");
  * returns all events saved in the BD
  */
 exports.getEvents = function (req, res) {
-
-    Event.find({}, function (err, events) {
-        if (err != null) { // if an error occurred
+    var events;
+    eventRepository.findEvents(events, function(err, events){
+        if(err != null){ // if an error occurred
             res.writeHead(400, {'content-type': 'text/plain'});
             res.write("Error: " + err);
             res.end();
-        } else {
+        }else{
             res.send(events);
         }
     });
@@ -113,16 +113,14 @@ exports.postEvent = function (req, res) {
         eventRepository.saveEvent(fields, function(fields, err){
             if(err != null){
                 res.writeHead(200, {'content-type': 'text/plain'});
-                res.write('Guardado en MongoDB : \n\n');
+                res.write('Saved in MongoDB : \n\n');
                 res.end(util.inspect({
                     fields: fields
                 }));
-                console.log("Todo guay todo chachi")
-            }else{
+            }else {
                 res.writeHead(400, {'content-type': 'text/plain'});
                 res.write("Error: " + err);
                 res.end();
-                console.log("Error: " + err);;
             }
         });
     }

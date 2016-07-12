@@ -8,14 +8,30 @@ var mongoose = require("mongoose");
 var Event = mongoose.model('event');
 var Tag = mongoose.model('tag');
 
+/**
+ * findEvents, returns all the events saved in mongo
+ */
+exports.findEvents = function(obj, callback){
 
-/*findEvent
-* saveEvent*/
+   Event.find({}, function (err, obj) {
+       if (err != null) { // if an error occurred
+           callback(err, obj);
+       } else {
+           callback(null, obj);
+       }
+    });
+
+};
+
+/**
+ * findEventsByLocation, returns all events that are close to a latitude and a longitude
+ */
+exports.findEventsNear = function(coordinates, obj, callback){
+
+}
 
 /**
  * saveEvent, save an event in mongo
- * @param obj, event params
- * @param callback
  */
 exports.saveEvent =  function(obj, callback){
     if(obj != null){
