@@ -1,5 +1,5 @@
 /**
- *  Author : Alberto de la Fuente Cruz
+ *  Author : Ricardo
  *
  *  USER model for MongoDB in mongoose.Schema
  */
@@ -7,13 +7,13 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-//Set up a mongoose model and pass it using module.exports
-module.exports = mongoose.model('user', new Schema(({
-    /* idUser (objectID) */
+// Password is stored as hash
+module.exports = mongoose.model('user', new Schema({
 
-    id: Number,
     name: String,
-    password: String,
     email: String,
-    gcm_token: String
-})));
+    gcm_token: String,
+    token: String,
+    hash: String
+
+}));
