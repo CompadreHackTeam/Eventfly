@@ -16,7 +16,7 @@ exports.findEvents = function(callback){
     Event.find({}, function (err, obj) {
         if (err != null) { // if an error occurred
             callback(err, obj);
-        } else {
+        } else { 
             callback(null, obj);
         }
     });
