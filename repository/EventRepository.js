@@ -41,6 +41,25 @@ exports.findNearEvents = function(latitude, longitude, radius, callback){
 };
 
 /**
+ * findEventsByTag
+ * returns all the events associated to a tag
+ * @param tagName, tag name that we are searching for
+ * @param callback
+ */
+exports.findEventsByTag = function(tagName, callback){
+
+    Event.find({
+        tagList: { "$in" : [tagName.toLowerCase()]}
+    }, function(err, obj){
+        if(err != null){
+            callback(err, null);
+        }else{
+            callback(null, obj);
+        }
+    });
+};
+
+/**
  * saveEvent, save an event in mongo
  * @param obj, event params
  * @param callback
@@ -103,4 +122,5 @@ function saveTagsFromEvent(tagName) {
             });
         }
     });
-}
+};
+

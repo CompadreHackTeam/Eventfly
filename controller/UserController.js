@@ -53,4 +53,7 @@ exports.authenticateUser = function (req, res) {
     });
 };
 
+exports.getUserById = function(req, res){
 
+    //TODO repository
+};
