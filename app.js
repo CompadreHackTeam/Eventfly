@@ -63,6 +63,9 @@ controller.route('/registerUser')
 
 controller.route('/authenticateUser')
     .post(userController.authenticateUser);
+
+controller.route('/getUserByToken')
+    .post(userController.getUserByToken);
 /** </User route> */
 
 /** <Events route> */
@@ -88,6 +91,9 @@ controller.route('/getMessages')
 
 controller.route('/getMessage/:eventId')
     .get(messageController.getMessageByEvent);
+
+controller.route('/getMessagesWithOwners/:eventId')
+    .get(messageController.getMessagesAndUsersByEvent);
 
 controller.route('/createMessage')
     .post(messageController.createMessage);

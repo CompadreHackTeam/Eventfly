@@ -86,10 +86,6 @@ exports.saveEvent =  function(obj, callback){
 
         });
 
-        //Now we save (if not exists) the tags associated to the event previously saved
-        for (var i in obj.tagList) {
-            saveTagsFromEvent(obj.tagList[i]);
-        }
         event.save(function (err) {
             if (err != null) {
                 callback(err, null);
@@ -102,25 +98,3 @@ exports.saveEvent =  function(obj, callback){
         callback(new Error(), obj);
     }
 };
-
-/**
- * @function saveTagsFromEvent
- * @param tagName, the name of the tag that we are going to search
- * Saves a tag in mongo if already not exists
- */
-function saveTagsFromEvent(tagName) {
-
-    Tag.find({name: tagName}).count({}, function (error, numOfDocs) {
-        if (error) console.log(error);
-
-        if (numOfDocs == 0) {
-            var tag = new Tag({
-                name: tagName
-            });
-            tag.save(function (err) {
-                if (err) console.log("Error: " + err);
-            });
-        }
-    });
-};
-

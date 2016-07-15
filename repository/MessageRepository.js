@@ -4,8 +4,9 @@
  * Message model repository
  */
 
-var mongoose    = require("mongoose");
-var Message     = mongoose.model('message');
+var mongoose = require("mongoose");
+var Message = mongoose.model('message');
+var User = mongoose.model('user');
 
 /**
  * Returns all the messages saved in mongo
@@ -34,6 +35,57 @@ exports.findMessageByIdEvent = function (idEvent, callback) {
             callback(err, obj);
         } else {
             callback(null, obj);
+        }
+    });
+};
+
+
+exports.findMessagesAndUsersByIdEventWithUser = function (idEvent, callback) {
+
+    Message.find({}, function (err, groups) {
+
+        if (err != null) {
+            callback(err, null);
+        }
+        else {
+            var msgOwnersData = [];
+
+            groups.forEach(function (group) {
+                User.findOne({"_id": group.idOwner}, function (err, msgUser) {
+
+                   if(err != null){
+                       var objNullOwner = {
+                           "idEvent" : group.idEvent,
+                           "idOwner" : group.idOwner,
+                           "likes"   : group.likes,
+                           "body"    : group.body,
+                           "owner"   : {
+                               "name"   : null,
+                               "email"  : null,
+                               "photo"  : null
+                           }
+                       };
+                       msgOwnersData.push(objNullOwner);
+                   }else{
+                       var objOwner = {
+                           "idEvent" : group.idEvent,
+                           "idOwner" : group.idOwner,
+                           "likes"   : group.likes,
+                           "body"    : group.body,
+                           "owner"   : {
+                               "name"   : msgUser.name,
+                               "email"  : msgUser.email,
+                               "photo"  : msgUser.photo
+                           }
+                       };
+                       msgOwnersData.push(objOwner);
+                   }
+
+                    if(Object.keys(msgOwnersData).length == Object.keys(groups).length){
+                        callback(null, msgOwnersData);
+                    }
+                });
+            });
         }
     });
 };

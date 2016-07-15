@@ -68,3 +68,28 @@ exports.create = function (obj, callback) {
         }
     });
 };
+
+exports.getUserByToken = function(obj, callback){
+
+    jwt.verify(obj, config.jwt, function (err, decoded) {
+        if (err) {
+            callback(err, null);
+        } else {
+            // find an user with mongoID == decoded token
+            User.findOne({"_id" : decoded.sub}, function (err, user) {
+
+                if (err != null) { //User token doesn't exists
+                    callback(err, null);
+                } else {
+
+                    var userCallback = {
+                     name  : user.name,
+                     email : user.email,
+                     photo : user.photo
+                     };
+                    callback(null, userCallback);
+                }
+            });
+        }
+    });
+};

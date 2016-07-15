@@ -46,6 +46,23 @@ exports.getMessageByEvent = function(req, res){
 };
 
 /**
+ * @method getMessagesAndUsersByEvent
+ * returns messages and the data of the users that posted them
+ */
+exports.getMessagesAndUsersByEvent = function(req, res){
+
+    messageRepository.findMessagesAndUsersByIdEventWithUser(req.params.eventId, function(err, messages){
+        if(err != null){
+            res.writeHead(400, {'content-type' : 'text/plain'});
+            res.write("Error: " + err);
+            res.end();
+        }else{
+            res.send(messages);
+        }
+    });
+};
+
+/**
  * Create Message
  * Add to mongo a messages associated to an event from a JSON object
  */

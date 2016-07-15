@@ -10,10 +10,11 @@ var Schema = mongoose.Schema;
 // Password is stored as hash
 module.exports = mongoose.model('user', new Schema({
 
-    name: String,
-    email: String,
-    gcm_token: String,
-    token: String,
-    hash: String
+    name        : String,
+    email       : String,
+    photo       : String,
+    gcm_token   : String,
+    token       : String,
+    hash        : String
 
 }));

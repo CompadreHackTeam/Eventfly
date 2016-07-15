@@ -57,3 +57,19 @@ exports.getUserById = function(req, res){
 
     //TODO repository
 };
+
+exports.getUserByToken = function(req, res){
+
+    var userToken = req.body.token; //Token of the user that we are searching for
+   // console.log(userToken);
+
+    userRepository.getUserByToken(userToken, function(err, user){
+        if(err != null){
+            res.writeHead(400, {'content-type' : 'text/plain'});
+            res.write("Error: User token not found\n" + err);
+            res.end();
+        }else{
+            res.send(user);
+        }
+    });
+};
