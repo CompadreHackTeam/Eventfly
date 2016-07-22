@@ -73,3 +73,17 @@ exports.getUserByToken = function(req, res){
         }
     });
 };
+
+//TODO remove in production
+exports.getAllUsers = function(req, res){
+
+    userRepository.getAllUsers(function(err, obj){
+        if(err != null){
+            res.writeHead(400, {'content-type' : 'text/plain'});
+            res.write("See ya in anotha' life brotha\n" + err);
+            res.end();
+        }else{
+            res.send(obj);
+        }
+    })
+}

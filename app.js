@@ -66,6 +66,8 @@ controller.route('/authenticateUser')
 
 controller.route('/getUserByToken')
     .post(userController.getUserByToken);
+controller.route('/getAllUsers')
+    .get(userController.getAllUsers);
 /** </User route> */
 
 /** <Events route> */

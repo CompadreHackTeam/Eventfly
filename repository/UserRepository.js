@@ -24,7 +24,9 @@ exports.authenticate = function (email, password, callback) {
 
         if (user && bcrypt.compareSync(password, user.hash)) {
             // authentication successful ( generate the secret anywhere in a file)
-            callback(null, jwt.sign({sub: user._id}, config.jwt));
+            callback(null, jwt.sign(user._id, config.jwt, {
+                expiresIn: 60
+            }));
         } else {
             // authentication failed
             callback("Auth Failed", null);
@@ -56,7 +58,6 @@ exports.create = function (obj, callback) {
                 hash: bcrypt.hashSync(obj.password, 10)
 
             });
-
             // save user in the db
             newUser.save(function (err) {
                 if (err != null) {
@@ -92,4 +93,13 @@ exports.getUserByToken = function(obj, callback){
             });
         }
     });
+};
+
+exports.getAllUsers = function(callback){
+  User.find({}, function(err, obj){
+      if(err) callback(err, null);
+      else{
+          callback(null, obj);
+      }
+  })
 };

@@ -72,9 +72,16 @@ exports.createMessage = function(req, res){
 
     jwt.verify(fields.token, config.jwt, function (err, decoded) {
         if (err) {
-            res.writeHead(401, {'content-type': 'text/plain'});
-            res.write("Unauthorized");
-            res.end();
+            if(err.name == 'TokenExpiredError'){ /* User token expired */
+                res.writeHead(401, {'content-type': 'text/plain'});
+                res.write("TokenExpiredError");
+                res.end();
+            }
+            else{ /* Something horrible happen */
+                res.writeHead(401, {'content-type': 'text/plain'});
+                res.write("Unauthorized");
+                res.end();
+            }
         } else {
             // Request OK
             // Add the user ID to the Event Object
