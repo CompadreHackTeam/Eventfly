@@ -42,7 +42,7 @@ exports.findMessageByIdEvent = function (idEvent, callback) {
 
 exports.findMessagesAndUsersByIdEventWithUser = function (idEvent, callback) {
 
-    Message.find({}, function (err, groups) {
+    Message.find({idEvent :idEvent}, function (err, groups) {
 
         if (err != null) {
             callback(err, null);
@@ -59,6 +59,7 @@ exports.findMessagesAndUsersByIdEventWithUser = function (idEvent, callback) {
                            "idOwner" : group.idOwner,
                            "likes"   : group.likes,
                            "body"    : group.body,
+                           "date"    : group.date,
                            "owner"   : {
                                "name"   : null,
                                "email"  : null,
@@ -72,6 +73,7 @@ exports.findMessagesAndUsersByIdEventWithUser = function (idEvent, callback) {
                            "idOwner" : group.idOwner,
                            "likes"   : group.likes,
                            "body"    : group.body,
+                           "date"    : group.date,
                            "owner"   : {
                                "name"   : msgUser.name,
                                "email"  : msgUser.email,
