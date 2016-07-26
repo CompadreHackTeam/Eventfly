@@ -10,7 +10,9 @@ var config      = require('../server.properties');
 var User                = require('../model/User'),
     Event               = require('../model/Event'),
     Message             = require('../model/Message'),
-    Response            = require('../model/Response');
+    Response            = require('../model/Response'),
+    Image               = require('../model/Image'),
+    Thumbnail           = require('../model/Thumbnail');
 
 module.exports = {
     connectDB: function () {

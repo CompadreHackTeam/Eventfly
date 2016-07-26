@@ -22,7 +22,9 @@ var express = require("express"),
     eventController = require('./controller/EventController'),
     messageController = require('./controller/MessageController'),
     responseController = require('./controller/ResponseController'),
-    userController = require('./controller/UserController');
+    userController = require('./controller/UserController'),
+    imageController = require('./controller/ImageController');
+
 
 /** Create the database connection */
 DatabaseManager.connectDB();
@@ -111,6 +113,17 @@ controller.route('/getResponse/:messageId')
 controller.route('/createResponse')
     .post(responseController.createResponse);
 /** </Responses route> */
+
+/** <Images route> */
+controller.route('/uploadImage')
+    .post(imageController.uploadImage);
+
+controller.route('/getImage')
+    .get(imageController.getImage);
+
+controller.route('/getThumbnail')
+    .get(imageController.getThumbnail);
+/** </Images route> */
 
 
 /** Start server */
