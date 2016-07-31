@@ -37,7 +37,6 @@ exports.setup =  function () {
  * @param idUser, id of the user that posted the message
  */
 exports.resolveNewMessage = function(idEvent, idUser){
-
     userRepository.getGcmTokenAndNameById(idUser, function(err, gcmToken, userName){
         if(err) console.log(err);
         else{

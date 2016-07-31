@@ -24,9 +24,12 @@ exports.authenticate = function (email, password, callback) {
 
         if (user && bcrypt.compareSync(password, user.hash)) {
             // authentication successful ( generate the secret anywhere in a file)
-            callback(null, jwt.sign(user._id.toString(), config.jwt/*, {
-                expiresIn: "10m" //TODO test only purpose
-            }*/));
+            var userId = {
+                _id : user._id
+            }
+            callback(null, jwt.sign(userId, config.jwt, {
+                expiresIn: config.tokenExpire //TODO test only purpose
+            }));  
         } else {
             // authentication failed
             callback("Auth Failed", null);
@@ -118,7 +121,7 @@ exports.getAllUsers = function(callback){
 };
 
 exports.updateUser = function(idUser, updateFields, callback){
-    
+
     User.findOneAndUpdate({_id : idUser}, {photo : updateFields.photo }, function(err){
             if(err != null){
                 callback(err);

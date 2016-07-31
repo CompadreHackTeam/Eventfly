@@ -91,7 +91,6 @@ exports.createEvent = function (req, res) {
     var userToken = req.headers.token;
 
     jwt.verify(userToken, config.jwt, function (err, decoded) {
-
         if (err) {
             if(err.name == 'TokenExpiredError'){ /* User token expired */
                 res.writeHead(401, {'content-type': 'text/plain'});
@@ -104,8 +103,8 @@ exports.createEvent = function (req, res) {
                 res.end();
             }
         } else {
-            fields.owner = decoded; // Add the user ID to the Event Object
-            console.log(fields.owner);
+            fields.idOwner = decoded._id; // Add the user ID to the Event Object
+
             eventValidator.validateEvent(fields, function (err) {
                 if (err != null) {//If validator returns error
                     res.writeHead(400, {'content-type': 'text/plain'});

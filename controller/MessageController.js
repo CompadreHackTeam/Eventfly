@@ -87,7 +87,7 @@ exports.createMessage = function(req, res){
             }
 
         } else {
-            fields.owner = decoded; /* gets the idUser */
+            fields.idOwner = decoded._id; /* gets the idUser */
             
             messageValidator.validateMessage(fields, function (err) {
                 if (err != null) {
@@ -105,7 +105,7 @@ exports.createMessage = function(req, res){
                             res.end();
                         }
                     });
-                    notificationService.resolveNewMessage(fields.idEvent, fields.owner);
+                    notificationService.resolveNewMessage(fields.idEvent, fields.idOwner);
                 }
             });
         }

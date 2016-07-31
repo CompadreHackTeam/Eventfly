@@ -82,12 +82,11 @@ exports.saveEvent =  function(obj, callback){
             },
             type: obj.type,
             radius: obj.radius,
-            owner: obj.owner,
+            owner: obj.idOwner,
             tagList: obj.tagList
             /*messageList: */
 
         });
-
         event.save(function (err) {
             if (err != null) {
                 callback(err, null);
@@ -95,7 +94,7 @@ exports.saveEvent =  function(obj, callback){
                 callback(null, event);
             }
         });
-        notificationService.resolveNewMessage(obj.idEvent, obj.owner);
+      //  notificationService.resolveNewMessage(obj.idEvent, obj.idOwner);
 
     }
     else{

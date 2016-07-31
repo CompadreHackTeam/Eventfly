@@ -112,7 +112,7 @@ exports.saveMessage = function (obj, callback) {
 
     var message = new Message({
         idEvent: obj.idEvent,
-        idOwner: obj.owner,
+        idOwner: obj.idOwner,
         likes: 0, //New message, 0 likes
         body: obj.body
     });
