@@ -12,7 +12,8 @@ var User                = require('../model/User'),
     Message             = require('../model/Message'),
     Response            = require('../model/Response'),
     Image               = require('../model/Image'),
-    Thumbnail           = require('../model/Thumbnail');
+    Thumbnail           = require('../model/Thumbnail'),
+    Subscription        = require('../model/Subscription');
 
 module.exports = {
     connectDB: function () {

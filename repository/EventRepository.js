@@ -4,8 +4,10 @@
  * Event model repository
  * */
 
-var mongoose    = require('mongoose');
-var Event       = mongoose.model('event');
+var mongoose            = require('mongoose');
+var Event               = mongoose.model('event');
+var notificationService = require('./../service/NotificationService');
+
 
 /**
  * findEvents, returns all the events saved in mongo
@@ -93,8 +95,20 @@ exports.saveEvent =  function(obj, callback){
                 callback(null, event);
             }
         });
+        notificationService.resolveNewMessage(obj.idEvent, obj.owner);
+
     }
     else{
         callback(new Error(), obj);
     }
+
+};
+
+exports.getNameById = function(eventId, callback){
+    Event.findOne({ _id : eventId }, function(err, obj){
+        if(err) callback(err, null);
+        else{
+            callback(null, obj.name);
+        }
+    })
 };

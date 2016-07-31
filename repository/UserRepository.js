@@ -1,5 +1,5 @@
 /**
- * Author : Ricardo
+ * Author : Ricardo, Alberto
  *
  * UserRepository
  */
@@ -24,9 +24,9 @@ exports.authenticate = function (email, password, callback) {
 
         if (user && bcrypt.compareSync(password, user.hash)) {
             // authentication successful ( generate the secret anywhere in a file)
-            callback(null, jwt.sign(user._id, config.jwt, {
-                expiresIn: 60
-            }));
+            callback(null, jwt.sign(user._id.toString(), config.jwt/*, {
+                expiresIn: "10m" //TODO test only purpose
+            }*/));
         } else {
             // authentication failed
             callback("Auth Failed", null);
@@ -95,6 +95,19 @@ exports.getUserByToken = function(obj, callback){
     });
 };
 
+exports.getGcmTokenAndNameById = function(idUser, callback){
+
+    User.findOne({_id : idUser}, function(err, obj){
+        if(err) {
+            callback(err, null);
+        }
+        else{
+            callback(null, obj.gcm_token, obj.name);
+
+        }
+    })
+};
+
 exports.getAllUsers = function(callback){
   User.find({}, function(err, obj){
       if(err) callback(err, null);
@@ -102,4 +115,15 @@ exports.getAllUsers = function(callback){
           callback(null, obj);
       }
   })
+};
+
+exports.updateUser = function(idUser, updateFields, callback){
+    
+    User.findOneAndUpdate({_id : idUser}, {photo : updateFields.photo }, function(err){
+            if(err != null){
+                callback(err);
+            }else{
+                callback(null);
+            }
+    })
 };

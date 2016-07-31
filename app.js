@@ -68,8 +68,12 @@ controller.route('/authenticateUser')
 
 controller.route('/getUserByToken')
     .post(userController.getUserByToken);
+
 controller.route('/getAllUsers')
     .get(userController.getAllUsers);
+
+controller.route('/updateUser')
+    .post(userController.editUser);
 /** </User route> */
 
 /** <Events route> */
@@ -80,7 +84,7 @@ controller.route('/getEventsByLocation/:latitude/:longitude/:radius')
     .get(eventController.getEventsByLocation);
 
 controller.route('/getEventsByTag/:tagName')
-    .get(eventController.getEventsByTag)
+    .get(eventController.getEventsByTag);
 
 controller.route('/deleteEvents')
     .get(eventController.deleteEvents);

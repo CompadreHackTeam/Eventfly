@@ -4,9 +4,9 @@
  * Message model repository
  */
 
-var mongoose = require("mongoose");
-var Message = mongoose.model('message');
-var User = mongoose.model('user');
+var mongoose    = require("mongoose");
+var Message     = mongoose.model('message');
+var User        = mongoose.model('user');
 
 /**
  * Returns all the messages saved in mongo
@@ -42,52 +42,63 @@ exports.findMessageByIdEvent = function (idEvent, callback) {
 
 exports.findMessagesAndUsersByIdEventWithUser = function (idEvent, callback) {
 
-    Message.find({idEvent :idEvent}, function (err, groups) {
+    Message.find({idEvent: idEvent}, function (err, groups) {
 
         if (err != null) {
             callback(err, null);
         }
         else {
-            var msgOwnersData = [];
+            if (Object.keys(groups).length == 0) {
+                callback(null, []);
+            } else {
+                var msgOwnersData = [];
 
-            groups.forEach(function (group) {
-                User.findOne({"_id": group.idOwner}, function (err, msgUser) {
+                groups.forEach(function (group) {
+                    User.findOne({"_id": group.idOwner}, function (err, msgUser) {
 
-                   if(err != null){
-                       var objNullOwner = {
-                           "idEvent" : group.idEvent,
-                           "idOwner" : group.idOwner,
-                           "likes"   : group.likes,
-                           "body"    : group.body,
-                           "date"    : group.date,
-                           "owner"   : {
-                               "name"   : null,
-                               "email"  : null,
-                               "photo"  : null
-                           }
-                       };
-                       msgOwnersData.push(objNullOwner);
-                   }else{
-                       var objOwner = {
-                           "idEvent" : group.idEvent,
-                           "idOwner" : group.idOwner,
-                           "likes"   : group.likes,
-                           "body"    : group.body,
-                           "date"    : group.date,
-                           "owner"   : {
-                               "name"   : msgUser.name,
-                               "email"  : msgUser.email,
-                               "photo"  : msgUser.photo
-                           }
-                       };
-                       msgOwnersData.push(objOwner);
-                   }
+                        if (err != null) {
+                            console.log(err);
+                            callback(err, null);
+                        } else {
+                            if(msgUser == null){
+                                var objNullOwner = {
+                                    "idEvent": group.idEvent,
+                                    "idOwner": group.idOwner,
+                                    "likes": group.likes,
+                                    "body": group.body,
+                                    "date": group.date,
+                                    "owner": {
+                                        "name": null,
+                                        "email": null,
+                                        "photo": null
+                                    }
+                                };
+                                msgOwnersData.push(objNullOwner);
+                            }else{
+                                var objOwner = {
+                                    "idEvent": group.idEvent,
+                                    "idOwner": group.idOwner,
+                                    "likes": group.likes,
+                                    "body": group.body,
+                                    "date": group.date,
+                                    "owner": {
+                                        "name" : msgUser.name,
+                                        "email": msgUser.email,
+                                        "photo": msgUser.photo
+                                    }
+                                };
+                                msgOwnersData.push(objOwner);
+                            }
 
-                    if(Object.keys(msgOwnersData).length == Object.keys(groups).length){
-                        callback(null, msgOwnersData);
-                    }
+                        }
+
+                        if (Object.keys(msgOwnersData).length == Object.keys(groups).length) {
+                            callback(null, msgOwnersData);
+                        }
+
+                    });
                 });
-            });
+            }
         }
     });
 };

@@ -23,7 +23,7 @@ exports.validateMessage = function (jsonObj, callback){
                     },
                     idOwner: {
                         type: 'String',
-                        required: false, //TODO change true when users are added
+                        required: true,
                         allowEmpty: false
                     },
                     body: {

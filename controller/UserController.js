@@ -1,11 +1,13 @@
 /**
- * Author : Ricardo
+ * Author : Ricardo, Alberto
  *
  * User controller for server
  * */
 
 var userRepository = require("./../repository/UserRepository.js");
-var userValidator = require("./../validator/UserValidator.js");
+var userValidator  = require("./../validator/UserValidator.js");
+var jwt            = require('jsonwebtoken');
+var config         = require('../server.properties');
 
 /**
  * @method getEvents
@@ -38,11 +40,17 @@ exports.registerUser = function (req, res) {
 
 };
 
+/**
+ * If email and password ok returns a jwt token authentication
+ * @param req
+ * @param res
+ */
 exports.authenticateUser = function (req, res) {
 
     var fields = req.body;
 
     userRepository.authenticate(fields.email, fields.password , function (err, token) {
+        
         if (err != null) {
             res.writeHead(401, {'content-type': 'text/plain'});
             res.write(err);
@@ -53,11 +61,11 @@ exports.authenticateUser = function (req, res) {
     });
 };
 
-exports.getUserById = function(req, res){
-
-    //TODO repository
-};
-
+/**
+ * Returns an user object from a gcmToken
+ * @param req
+ * @param res
+ */
 exports.getUserByToken = function(req, res){
 
     var userToken = req.body.token; //Token of the user that we are searching for
@@ -86,4 +94,46 @@ exports.getAllUsers = function(req, res){
             res.send(obj);
         }
     })
-}
+};
+
+/**
+ * Edit an user given by _id, updating the fields of the document
+ * @param req
+ * @param res
+ */
+exports.editUser = function(req, res){
+
+    var fields = req.body;
+    var userToken = req.headers.token;
+
+    jwt.verify(userToken, config.jwt, function (err, decoded) {
+        if (err) {
+
+            if(err.name == 'TokenExpiredError'){ /* User token expired */
+                res.writeHead(401, {'content-type': 'text/plain'});
+                res.write("TokenExpiredError");
+                res.end();
+            }
+            else{ /* Something horrible happen */
+                res.writeHead(401, {'content-type': 'text/plain'});
+                res.write("Unauthorized");
+                res.end();
+            }
+
+        } else {
+            fields.owner = decoded; /* gets the idUser */
+            userRepository.updateUser(fields.owner, fields, function(err){
+                if(err != null){
+                    res.writeHead(400, {'content-type': 'text/plain'});
+                    res.write(err);
+                    res.end();
+                }else{
+                    res.writeHead(200, {'content-type': 'text/plain'});
+                    res.write('User updated');
+                    res.end();
+                }
+            })
+        }
+    });
+};
+

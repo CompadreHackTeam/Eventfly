@@ -1,5 +1,5 @@
 /**
- * Author : Alberto de la Fuente Cruz
+ * Author : Alberto
  *
  * Event model controller for server
  * */
@@ -88,8 +88,10 @@ exports.deleteEvents = function (req, res) {
 exports.createEvent = function (req, res) {
 
     var fields = req.body;
+    var userToken = req.headers.token;
 
-    jwt.verify(fields.token, config.jwt, function (err, decoded) {
+    jwt.verify(userToken, config.jwt, function (err, decoded) {
+
         if (err) {
             if(err.name == 'TokenExpiredError'){ /* User token expired */
                 res.writeHead(401, {'content-type': 'text/plain'});
@@ -102,10 +104,8 @@ exports.createEvent = function (req, res) {
                 res.end();
             }
         } else {
-            // Request OK
-            // Add the user ID to the Event Object
-            fields.owner = decoded.sub;
-
+            fields.owner = decoded; // Add the user ID to the Event Object
+            console.log(fields.owner);
             eventValidator.validateEvent(fields, function (err) {
                 if (err != null) {//If validator returns error
                     res.writeHead(400, {'content-type': 'text/plain'});

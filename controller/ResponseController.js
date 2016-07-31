@@ -1,5 +1,5 @@
 /**
- * Author : Alberto de la Fuente Cruz
+ * Author : Alberto
  *
  * Response model controller for server
  * */
@@ -53,8 +53,9 @@ exports.getResponseByMessage = function(req, res){
 exports.createResponse = function(req, res){
     
     var fields = req.body;
+    var userToken = req.headers.token;
 
-    jwt.verify(fields.token, config.jwt, function (err, decoded) {
+    jwt.verify(userToken, config.jwt, function (err, decoded) {
         if (err) {
             res.writeHead(401, {'content-type': 'text/plain'});
             res.write("Unauthorized");
