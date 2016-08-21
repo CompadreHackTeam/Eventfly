@@ -13,6 +13,33 @@ var revalidator = require('revalidator');
  */
 exports.validateUser = function (jsonObj, callback) {
 
-    // All users are valid :D
-    callback(null);
+    if (revalidator.validate(jsonObj,
+            {
+                properties: {
+                    name: {
+                        type: 'String',
+                        required: true,
+                        allowEmpty: false
+                    },
+                    email: {
+                        type: 'String',
+                        required: true,
+                        allowEmpty: false
+                    },
+                    password: {
+                        type : 'String',
+                        required : true,
+                        allowEmpty : false
+                    },
+                    gcm_token: {
+                        type: 'String',
+                        required: true,
+                        allowEmpty: false
+                    }
+                }
+            }).valid == false) {
+        callback(new Error());
+    } else {
+        callback(null);
+    }
 };

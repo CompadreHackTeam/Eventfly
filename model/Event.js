@@ -1,3 +1,4 @@
+
 /**
  * Author : Alberto de la Fuente Cruz
  *
@@ -34,5 +35,7 @@ module.exports = mongoose.model('event', new Schema({
     tagList: [String],
 
     /*List of messages by ObjectId associated to a determinate event*/
-    messageList: [String]
+    messageList: [String],
+    /* List of the gcmToken from the users that writes in the event */
+    gcmTokenList : [String]
 }));
