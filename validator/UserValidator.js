@@ -11,7 +11,7 @@ var revalidator = require('revalidator');
  * @param jsonObj
  * @param callback
  */
-exports.validateUser = function (jsonObj, callback) {
+exports.validateUser = function (jsonObj, callback) { 
 
     if (revalidator.validate(jsonObj,
             {
