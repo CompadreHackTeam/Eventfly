@@ -13,6 +13,7 @@ var revalidator = require('revalidator');
  * @param callback
  */
 exports.validateMessage = function (jsonObj, callback){
+
     if (revalidator.validate(jsonObj,
             {
                 properties: {
@@ -32,7 +33,7 @@ exports.validateMessage = function (jsonObj, callback){
                         allowEmpty: false
                     }
                 }
-            }).valid == false) {
+            }).valid == false || /\S/.test(jsonObj.body) == false) {
         callback(new Error());
     } else {
         callback(null);

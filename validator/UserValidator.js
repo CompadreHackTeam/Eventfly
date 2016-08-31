@@ -7,11 +7,10 @@
 var revalidator = require('revalidator');
 
 /**
- * TODO : IMPLEMENT
  * @param jsonObj
  * @param callback
  */
-exports.validateUser = function (jsonObj, callback) { 
+exports.validateUser = function (jsonObj, callback) {
 
     if (revalidator.validate(jsonObj,
             {

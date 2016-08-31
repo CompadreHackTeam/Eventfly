@@ -42,7 +42,6 @@ exports.resolveNewMessage = function(idEvent, idUser){
         else{
             Subscription.count({idEvent: idEvent}, function(err, count) {
 
-                console.log(count);
                 if(count == 0){ // This will be executed when the user creates an event
                     var subscription =  new Subscription({
                         idEvent : idEvent,
@@ -91,7 +90,7 @@ function sendNotificationToEventSubscribers(gcmTokens, eventName, userName) {
     message.addData('EventFly', 'Notification');
     message.addNotification('eventName', eventName);
     message.addNotification('userName', userName);
-    console.log("Message { EventName:" + eventName + ", UserName:" + userName + ", gcmTokens: " + gcmTokens);
+    //console.log("Message { EventName:" + eventName + ", UserName:" + userName + ", gcmTokens: " + gcmTokens);
 
     sender.send(message, gcmTokens, function (err, response) {
         if (err) {
