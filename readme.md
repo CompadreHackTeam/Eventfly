@@ -1,3 +1,4 @@
+![alt tag](http://i.imgur.com/uogNE2B.png)
 # Eventfly API
 
 Eventfly API is a service created in Node.js using MongoDB that offers chat based on 'geofences'. 
