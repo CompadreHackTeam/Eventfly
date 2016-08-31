@@ -4,7 +4,9 @@ Eventfly API is a service created in Node.js using MongoDB that offers chat base
 
 The project was born in the "Hack for Good 2015" event in the Escuela Politécnica (Extremadura University), after that we decided to go on with that forming the "Compadre Hack Team", wich is composed by Alberto de la Fuente and Ricardo Flores Rosco as a learning and personal growing project.
 
-### EndPoints
+## EndPoints
+
+Please note that the POST services requires a valid token from an authenticated user
 
 ### Events
     
@@ -13,7 +15,7 @@ The project was born in the "Hack for Good 2015" event in the Escuela Politécni
 - **/getEventsByTag/:tagName** Gets all the events that contains _tagName_. 
 - **/createEvent** Post a new Event to mongoDB.
 
-### Tech
+## Tech
 
 Eventfly uses a number of open source projects to work properly:
 
@@ -22,7 +24,7 @@ Eventfly uses a number of open source projects to work properly:
 * [MongoDB] - High performance noSQL DB
 * [JsonWebToken] - JSON-based open standard (RFC 7519) for creating tokens
 
-### Installation
+## Installation
 
 Eventfly requires [Node.js](https://nodejs.org/) v4+ to run.
 
