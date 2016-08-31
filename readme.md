@@ -51,7 +51,7 @@ Eventfly requires [Node.js](https://nodejs.org/) v4+ to run.
 
 Download and extract the [latest release](https://github.com/CompadreHackTeam/Eventfly).
 
-Install the dependencies and and start the server using node.
+Install the dependencies and start the server using node.
 
 ```sh
 $ cd Eventfly
