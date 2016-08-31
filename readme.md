@@ -32,8 +32,8 @@ Please note that the POST services requires a valid token from an authenticated 
 #### Images
 
 - **/uploadImage** Adds an image to mongoDB.
-- **/getImage/:id** Gets the image corresponding to the id.
-- **/getThumbnail** Gets the thumbnail image corresponding to the id.
+- **/getImage/:id** Gets the image corresponding to the _id_.
+- **/getThumbnail/:id** Gets the thumbnail image corresponding to the _id_.
 
 
 ## Tech
