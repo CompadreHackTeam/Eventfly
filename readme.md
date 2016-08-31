@@ -6,12 +6,12 @@ The project was born in the "Hack for Good 2015" event in the Escuela Politécni
 
 ### EndPoints
 
-#### Events
+### Events
     
-    - **/getEvents** Gets all events stored in the database.
-    - **/getEventsByLocation/:latitude/:longitude/:radius** Gets all the events that are inside the _radius_ of a certain _longitude_ and _latitude_.
-    - **/getEventsByTag/:tagName** Gets all the events that contains _tagName_. 
-    - **/createEvent** Post a new Event to mongoDB.
+- **/getEvents** Gets all events stored in the database.
+- **/getEventsByLocation/:latitude/:longitude/:radius** Gets all the events that are inside the _radius_ of a certain _longitude_ and _latitude_.
+- **/getEventsByTag/:tagName** Gets all the events that contains _tagName_. 
+- **/createEvent** Post a new Event to mongoDB.
 
 ### Tech
 
