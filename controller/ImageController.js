@@ -13,7 +13,6 @@ var ImageRepository = require('../repository/ImageRepository.js');
  * @param res   The Response
  */
 exports.uploadImage = function (req, res) {
-    console.log('Entrando en /upload');
 
         new formidable.IncomingForm().parse(req)
             .on('file', function (name, file) {
