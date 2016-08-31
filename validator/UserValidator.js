@@ -13,6 +13,51 @@ var revalidator = require('revalidator');
  */
 exports.validateUser = function (jsonObj, callback) {
 
-    // All users are valid :D
-    callback(null);
+    if (revalidator.validate(jsonObj,
+            {
+                properties: {
+                    name: {
+                        type: 'String',
+                        required: true,
+                        allowEmpty: false
+                    },
+                    email: {
+                        type: 'String',
+                        required: true,
+                        allowEmpty: false
+                    },
+                    photo: {
+                        type: 'String',
+                        required: false,
+                        allowEmpty: true
+                    },
+                    gcm_token: {
+                        type: 'String',
+                        required: true,
+                        allowEmpty: false
+                    }
+                }
+            }).valid == false) {
+        callback(new Error());
+    } else {
+        callback(null);
+    }
+};
+
+exports.validateUserUpdate = function (jsonObj, callback) {
+
+    if (revalidator.validate(jsonObj,
+            {
+                properties: {
+                    photo: {
+                        type: 'String',
+                        required: true,
+                        allowEmpty: false
+                    }
+                }
+            }).valid == false) {
+        callback(new Error());
+    } else {
+        callback(null);
+    }
 };
