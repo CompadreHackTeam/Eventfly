@@ -13,23 +13,23 @@ The project was born in the "Hack for Good 2016" event in the Escuela Politécni
     "latitude"    : Number,
     "longitude"   : Number,
     "radius"      : Number,
-    "tagList"        : [String]
+    "tagList"     : [String]
 }
 ```
 #### Messages
 ```
 {
-    "idEvent"       : String,
-    "body"          : String  
+    "idEvent"     : String,
+    "body"        : String  
 }
 ```
 #### Users
 ```
 {
-    "name" : String,
-    "email": String,
-    "password" : String,
-    "gcm_token" : String
+    "name"        : String,
+    "email"       : String,
+    "password"    : String,
+    "gcm_token"   : String
 }
 ```
 
