@@ -4,36 +4,65 @@ Eventfly API is a service created in Node.js using MongoDB that offers chat base
 
 The project was born in the "Hack for Good 2016" event in the Escuela Politécnica (Extremadura University), after that we decided to go on with that forming the "Compadre Hack Team" as a learning and personal growing project.
 
+## Models
+
+#### Events
+```
+{
+    "name"        : String,
+    "latitude"    : Number,
+    "longitude"   : Number,
+    "radius"      : Number,
+    "tagList"        : [String]
+}
+```
+#### Messages
+```
+{
+    "idEvent"       : String,
+    "body"          : String  
+}
+```
+#### Users
+```
+{
+    "name" : String,
+    "email": String,
+    "password" : String,
+    "gcm_token" : String
+}
+```
+
 ## EndPoints
 
 Please note that the POST services requires a valid token from an authenticated user
 
 #### Events
     
-- **GET getEvents** Gets all events stored in the database.
-- **GET getEventsByLocation/[latitude]/[longitude]/[radius]** Gets all the events that are inside the _radius_ of a certain _longitude_ and _latitude_.
-- **GET getEventsByTag/:tagName** Gets all the events that contains _tagName_. 
-- **POST createEvent** Add a new Event to mongoDB.
+- **GET /getEvents** Gets all events stored in the database.
+- **GET /getEventsByLocation/[latitude]/[longitude]/[radius]** Gets all the events that are inside the [radius] of a certain [longitude] and [latitude].
+- **GET /getEventsByTag/[tagName]** Gets all the events that contains [tagName]. 
+- **POST /createEvent** Add a new Event to mongoDB.
 
 #### Messages
 
-- **/getMessages** Gets all messages stored in the database.
-- **/getMessage/:eventId** Gets all messages that belongs to the _eventId_ event.
-- **/getMessagesWithOwners/:eventId'** Gets all messages and users that posted them that belongs to the _eventId_ event.
-- **/createMessage** Adds a new Message to mongoDB.
+- **GET /getMessages** Gets all messages stored in the database.
+- **GET /getMessage/[eventId]** Gets all messages that belongs to the [eventId] event.
+- **GET /getMessagesWithOwners/[eventId]** Gets all messages and users that posted them that belongs to the [eventId] event.
+- **GET /createMessage** Adds a new Message to mongoDB.
 
 #### Users
 
-- **/registerUser** Adds a new User to mongoDB.
-- **/authenticateUser** Returns the token of the User authenticated.
-- **/getUserByToken** Gets User data from your token.
-- **/updateUser** Updates the user data.
+- **POST /registerUser** Adds a new User to mongoDB.
+- **POST /authenticateUser** Returns the token of the User authenticated.
+- **GET /getUserByToken** Gets User data from your token.
+- **POST /updateUser** Updates the user data.
 
 #### Images
 
-- **/uploadImage** Adds an image to mongoDB.
-- **/getImage/:id** Gets the image corresponding to the _id_.
-- **/getThumbnail/:id** Gets the thumbnail image corresponding to the _id_.
+- **POST /uploadImage** Adds an image to mongoDB.
+- **GET /getImage/[id]** Gets the image corresponding to the [id].
+- **GET /getThumbnail/[id]** Gets the thumbnail image corresponding to the [id].
 
 
 ## Tech
