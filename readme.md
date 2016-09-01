@@ -10,10 +10,10 @@ Please note that the POST services requires a valid token from an authenticated 
 
 #### Events
     
-- **/getEvents** Gets all events stored in the database.
-- **/getEventsByLocation/:latitude/:longitude/:radius** Gets all the events that are inside the _radius_ of a certain _longitude_ and _latitude_.
-- **/getEventsByTag/:tagName** Gets all the events that contains _tagName_. 
-- **/createEvent** Add a new Event to mongoDB.
+- **GET getEvents** Gets all events stored in the database.
+- **GET getEventsByLocation/[latitude]/[longitude]/[radius]** Gets all the events that are inside the _radius_ of a certain _longitude_ and _latitude_.
+- **GET getEventsByTag/:tagName** Gets all the events that contains _tagName_. 
+- **POST createEvent** Add a new Event to mongoDB.
 
 #### Messages
 
