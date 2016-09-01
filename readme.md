@@ -53,17 +53,16 @@ Please note that the POST services requires a valid token from an authenticated 
 
 #### Users
 
+- **GET /getUserByToken** Gets User data from your token.
 - **POST /registerUser** Adds a new User to mongoDB.
 - **POST /authenticateUser** Returns the token of the User authenticated.
-- **GET /getUserByToken** Gets User data from your token.
 - **POST /updateUser** Updates the user data.
 
 #### Images
 
-- **POST /uploadImage** Adds an image to mongoDB.
 - **GET /getImage/[id]** Gets the image corresponding to the [id].
 - **GET /getThumbnail/[id]** Gets the thumbnail image corresponding to the [id].
-
+- **POST /uploadImage** Adds an image to mongoDB.
 
 ## Tech
 
