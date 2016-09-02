@@ -16,13 +16,14 @@ module.exports = mongoose.model('event', new Schema({
     owner: String,
 
     name: String,
+
     latitude: Number,
     longitude: Number,
     /*coordinate for $near use*/
     loc: {
         type: {type: String},
         coordinates: [Number],
-        index: String
+        index: {type: String},
     },
     /* Type of event (petición ricardo)*/
     type : String,

@@ -69,7 +69,6 @@ exports.authenticateUser = function (req, res) {
 exports.getUserByToken = function(req, res){
 
     var userToken = req.body.token; //Token of the user that we are searching for
-   // console.log(userToken);
 
     userRepository.getUserByToken(userToken, function(err, user){
         if(err != null){

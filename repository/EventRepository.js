@@ -14,10 +14,10 @@ var notificationService = require('./../service/NotificationService');
  */
 exports.findEvents = function(callback){
 
-    Event.find({}, function (err, obj) {
+    Event.find({}, '-__v -loc -messageList', function (err, obj) {
         if (err != null) { // if an error occurred
-            callback(err, obj);
-        } else { 
+            callback(err, null);
+        } else {
             callback(null, obj);
         }
     });
@@ -33,7 +33,7 @@ exports.findNearEvents = function(latitude, longitude, radius, callback){
                 $geometry: {type: "Point", coordinates: [latitude, longitude]}, $maxDistance: radius
             }
         }
-    }, function (err, events) {
+    }, '-__v -loc -messageList', function (err, events) {
         if (err != null) { // if an error occurred
            callback(err, events)
         } else {
@@ -52,7 +52,7 @@ exports.findEventsByTag = function(tagName, callback){
 
     Event.find({
         tagList: { "$in" : [tagName.toLowerCase()]}
-    }, function(err, obj){
+    }, '-__v -loc -messageList', function(err, obj){
         if(err != null){
             callback(err, null);
         }else{
@@ -104,7 +104,7 @@ exports.saveEvent =  function(obj, callback){
 };
 
 exports.getNameById = function(eventId, callback){
-    Event.findOne({ _id : eventId }, function(err, obj){
+    Event.findOne({ _id : eventId }, '-__v -loc -messageList', function(err, obj){
         if(err) callback(err, null);
         else{
             callback(null, obj.name);

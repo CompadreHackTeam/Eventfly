@@ -14,7 +14,7 @@ var User        = mongoose.model('user');
  */
 exports.findMessages = function (callback) {
 
-    Message.find({}, function (err, obj) {
+    Message.find({}, '-__v -responseList', function (err, obj) {
         if (err != null) {
             callback(err, obj);
         } else {
@@ -30,7 +30,7 @@ exports.findMessages = function (callback) {
  */
 exports.findMessageByIdEvent = function (idEvent, callback) {
 
-    Message.find({idEvent: idEvent}, function (err, obj) {
+    Message.find({idEvent: idEvent}, '-__v -responseList', function (err, obj) {
         if (err != null) {
             callback(err, obj);
         } else {
@@ -42,7 +42,7 @@ exports.findMessageByIdEvent = function (idEvent, callback) {
 
 exports.findMessagesAndUsersByIdEventWithUser = function (idEvent, callback) {
 
-    Message.find({idEvent: idEvent}, function (err, groups) {
+    Message.find({idEvent: idEvent}, '-__v -responseList', function (err, groups) {
 
         if (err != null) {
             callback(err, null);

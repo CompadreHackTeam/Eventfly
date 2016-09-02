@@ -80,12 +80,11 @@ exports.getUserByToken = function(obj, callback){
             callback(err, null);
         } else {
             // find an user with mongoID == decoded token
-            User.findOne({"_id" : decoded.sub}, function (err, user) {
+            User.findOne({"_id" : decoded._id}, function (err, user) {
 
                 if (err != null) { //User token doesn't exists
                     callback(err, null);
                 } else {
-
                     var userCallback = {
                      name  : user.name,
                      email : user.email,
@@ -100,7 +99,7 @@ exports.getUserByToken = function(obj, callback){
 
 exports.getGcmTokenAndNameById = function(idUser, callback){
 
-    User.findOne({_id : idUser}, function(err, obj){
+    User.findOne({_id : idUser}, '-__v -hash',function(err, obj){
         if(err) {
             callback(err, null);
         }
@@ -112,7 +111,7 @@ exports.getGcmTokenAndNameById = function(idUser, callback){
 };
 
 exports.getAllUsers = function(callback){
-  User.find({}, function(err, obj){
+  User.find({}, '-__v -hash', function(err, obj){
       if(err) callback(err, null);
       else{
           callback(null, obj);
