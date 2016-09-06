@@ -38,7 +38,7 @@ The project was born in the "Hack for Good 2016" event in the Escuela Politécni
 Please note that the POST services requires a valid token from an authenticated user
 
 #### Events resources
-  - [GET /getEvents](#get-getEvents)
+  - [GET /getEvents](#get-getevents)
   - [GET /magazines/[id]](#get-magazinesid)
   - [POST /magazines/[id]/articles](#post-magazinesidarticles)
   
