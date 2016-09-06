@@ -45,7 +45,7 @@ Please note that the POST services requires a valid token from an authenticated 
 #### GET /getEvents 
 Gets all events stored in the database.
 Response body
-```
+``` 
   {
     "_id": "5785668eb15c5cbf67d58039",
     "name": "Epcc",
