@@ -38,8 +38,8 @@ The project was born in the "Hack for Good 2016" event in the Escuela Politécni
 Please note that the POST services requires a valid token from an authenticated user
   - [Events resources](#events-resources)
   - [Messages resources](#messages-resources)
-  - [Users resources](#users-1)
-  - [Images resources](#images)
+  - [Users resources](#users-resources)
+  - [Images resources](#images-resources)
 
 ### Events resources
   - [GET /getEvents](#get-getevents)
@@ -204,7 +204,7 @@ Request body:
 }
 ```
 
-#### Users resources
+### Users resources
   - [POST /getUserByToken](#post-getuserbytoken)
   - [POST /registerUser](#post-registeruser)
   - [POST /authenticateUser](#post-authenticateuser)
@@ -279,7 +279,7 @@ Request body:
 }
 ```
 
-#### Images resources
+### Images resources
 
 #### GET /getImage
  Gets the image corresponding to the [id] from headers.
