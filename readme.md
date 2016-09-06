@@ -141,14 +141,66 @@ Example: localhost:8585/api/getMessages
 
 Response body:
 ```
+{
      "_id": "5787f7e25b29a6e67d0f58e9",
      "idEvent": "57247d3656db4ee139f641e7",
      "idOwner": "57854dedd3a99242574f0a26",
      "likes": 0,
      "body": "This is a test message to the event with id: 57247d3656db4ee139f641e7",
      "date": "2016-07-14T20:36:50.371Z"
-     }        
+}        
   ```
+#### GET /getMessage/[eventId]
+Gets all messages that belongs to the [eventId] event.
+
+Example: localhost:8585/api/getMessage/57247d3656db4ee139f641e7
+
+Response body:
+```
+{
+     "_id": "5787f7e25b29a6e67d0f58e9",
+     "idEvent": "57247d3656db4ee139f641e7",
+     "idOwner": "57854dedd3a99242574f0a26",
+     "likes": 0,
+     "body": "This is a test message to the event with id: 57247d3656db4ee139f641e7",
+     "date": "2016-07-14T20:36:50.371Z"
+}        
+  ```
+#### GET /getMessagesWithOwners/[eventId]
+Gets all messages and users that posted them that belongs to the [eventId].
+
+Example: localhost:8585/api/
+
+Response body:
+```
+{
+    "idEvent": "578566f0b15c5cbf67d5803a",
+    "idOwner": "57854dedd3a99242574f0a26",
+    "likes": 0,
+    "body": "This is a test message to the event with id: 57247d3656db4ee139f641e7",
+    "date": "2016-07-14T21:13:45.639Z",
+    "owner": {
+        "name": "John",
+        "email": "John@gmail.com",
+        "photo": "579faf16e3bf29ce58de28b7"
+    }
+}
+```
+
+#### POST /createMessage
+Adds a new Message to mongoDB.
+
+Example: localhost:8585/api/createMessage (remember to always add a valid token in the headers)
+
+Request body:
+```
+{
+    "idEvent"       : "578566f0b15c5cbf67d5803a",
+    "body"          : "This is a test message to the event with id: 578566f0b15c5cbf67d5803a"
+}
+```
+
+
 #### Users
 
 - **GET /getUserByToken** Gets User data from your token.
