@@ -128,13 +128,27 @@ Response body:
  }
  ```
   
-#### Messages
+### Messages resources
+  - [GET /getMessages](#get-getmessages)
+  - [GET /getMessage/[eventId]](#get-getmessageeventid)
+  - [GET /getMessagesWithOwners/[eventId]](#get-getmessagewithownerseventid)
+  - [POST /createMessage](#post-createmessage)
+  
+#### GET /getMessages 
+Gets all messages stored in the database.
 
-- **GET /getMessages** Gets all messages stored in the database.
-- **GET /getMessage/[eventId]** Gets all messages that belongs to the [eventId] event.
-- **GET /getMessagesWithOwners/[eventId]** Gets all messages and users that posted them that belongs to the [eventId] event.
-- **POST /createMessage** Adds a new Message to mongoDB.
+Example: localhost:8585/api/getMessages
 
+Response body:
+```
+     "_id": "5787f7e25b29a6e67d0f58e9",
+     "idEvent": "57247d3656db4ee139f641e7",
+     "idOwner": "57854dedd3a99242574f0a26",
+     "likes": 0,
+     "body": "This is a test message to the event with id: 57247d3656db4ee139f641e7",
+     "date": "2016-07-14T20:36:50.371Z"
+     }        
+  ```
 #### Users
 
 - **GET /getUserByToken** Gets User data from your token.
@@ -148,38 +162,6 @@ Response body:
 - **GET /getThumbnail/[id]** Gets the thumbnail image corresponding to the [id].
 - **POST /uploadImage** Adds an image to mongoDB.
 
-## Responses 
-#### Events
-```
- {
-    "_id": String, //Id of the event in mongoDB
-    "name": String, //Name of the event
-    "latitude": Number, //Latitude where the event was defined
-    "longitude": Number, //Longitude where the event was defined
-    "radius": Number, //Action radius of the event
-    "owner": String, //Mongo _id of the user that created the event
-    "gcmTokenList": [String], //List of gcmTokens of users that are subscribed to the event
-    "tagList": [String], //List of tags that label to the event
-    "date": Date
-  }
-```
-#### Messages
-```
-  {
-    "_id": String, //Id of the message in mongoDB
-    "idEvent": String, //Id of the event where the message was posted
-    "idOwner": String, //Mongo _id of the user that created the message
-    "body": String, //Content of the message
-    "date": Date 
-``` 
-#### Users
-```
-{
-  "name": String, //Name of the user
-  "email": String, //Email of the user
-  "photo": String //Photo id of the user
-}
-```
 ## Tech
 
 Eventfly uses a number of open source projects to work properly:
