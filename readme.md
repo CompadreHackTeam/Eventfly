@@ -36,6 +36,10 @@ The project was born in the "Hack for Good 2016" event in the Escuela Politécni
 ## EndPoints
 
 Please note that the POST services requires a valid token from an authenticated user
+  - [Events resources](#events-resources)
+  - [Messages resources](#messages-resources)
+  - [Users resources](#users-1)
+  - [Images resources](#images)
 
 ### Events resources
   - [GET /getEvents](#get-getevents)
@@ -200,7 +204,7 @@ Request body:
 }
 ```
 
-#### Users
+#### Users resources
   - [POST /getUserByToken](#post-getuserbytoken)
   - [POST /registerUser](#post-registeruser)
   - [POST /authenticateUser](#post-authenticateuser)
@@ -275,12 +279,16 @@ Request body:
 }
 ```
 
+#### Images resources
 
-#### Images
+#### GET /getImage
+ Gets the image corresponding to the [id] from headers.
+ 
+#### GET /getThumbnail/[id]
+Gets the thumbnail image corresponding to the [id] from headers.
 
-- **GET /getImage/[id]** Gets the image corresponding to the [id].
-- **GET /getThumbnail/[id]** Gets the thumbnail image corresponding to the [id].
-- **POST /uploadImage** Adds an image to mongoDB.
+#### POST /uploadImage
+ Adds an image to mongoDB.
 
 ## Tech
 
