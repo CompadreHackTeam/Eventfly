@@ -44,7 +44,10 @@ Please note that the POST services requires a valid token from an authenticated 
   
 #### GET /getEvents 
 Gets all events stored in the database.
-Response body
+
+Example: localhost:8585/api/getEvents
+
+Response body:
 ``` 
   {
     "_id": "5785668eb15c5cbf67d58039",
@@ -61,10 +64,29 @@ Response body
     "date": "2016-07-12T21:52:14.447Z"
   }
   ```
-#### Events
-  
-- **GET /getEvents** Gets all events stored in the database.
-- **GET /getEventsByLocation/[latitude]/[longitude]/[radius]** Gets all the events that are inside the [radius] of a certain [longitude] and [latitude].
+#### GET /getEventsByLocation/[latitude]/[longitude]/[radius]
+Gets all the events that are inside the [radius] of a certain [longitude] and [latitude].
+
+Example: localhost:8585/api/getEventsByLocation/39.479000/-6.3420000/100
+
+Response body:
+``` 
+  {
+    "_id": "5785668eb15c5cbf67d58039",
+    "name": "Epcc",
+    "latitude": 39.479367,
+    "longitude": -6.3425695,
+    "radius": 100,
+    "owner": "57854dedd3a99242574f0a26",
+    "gcmTokenList": [APA91bHPRgkF3JUikC4ENAHEeMrd41Zxv3hVZjC9KtT8OvPVGJ-hQMRKRrZuJAEcl7B338qju59zJMjw2DELjzEvxwYv7hH5Ynpc1ODQ0aT4U4OFEeco8ohsN5PjL1iC2dNtk2BAokeMCg2ZXKqpc8FXKmhX94kIxQ],
+    "tagList": [
+      "School of technology",
+      "Dragon Hunters"
+    ],
+    "date": "2016-07-12T21:52:14.447Z"
+  }
+  ```
+
 - **GET /getEventsByTag/[tagName]** Gets all the events that contains [tagName]. 
 - **POST /createEvent** Add a new Event to mongoDB.
 
