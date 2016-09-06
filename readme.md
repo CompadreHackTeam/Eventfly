@@ -37,10 +37,12 @@ The project was born in the "Hack for Good 2016" event in the Escuela Politécni
 
 Please note that the POST services requires a valid token from an authenticated user
 
-#### Events resources
+### Events resources
   - [GET /getEvents](#get-getevents)
-  - [GET /magazines/[id]](#get-magazinesid)
-  - [POST /magazines/[id]/articles](#post-magazinesidarticles)
+  - [GET /getEventsByLocation/[latitude]/[longitude]/[radius]](#get-geteventsbylocationlatitudelongituderadius)
+  - [GET /getEventsByTag/[tag]](#get-geteventsbytag)
+  - [POST /createEvent](#post-postcreateevents)
+
   
 #### GET /getEvents 
 Gets all events stored in the database.
@@ -87,9 +89,45 @@ Response body:
   }
   ```
 
-- **GET /getEventsByTag/[tagName]** Gets all the events that contains [tagName]. 
-- **POST /createEvent** Add a new Event to mongoDB.
-
+#### GET /getEventsByTag/[tagName]
+ Gets all the events that contains [tagName].
+ 
+ Example: localhost:8585/api/getEventsByTag/Dragon Hunters
+ 
+ Response body:
+ ``` 
+   {
+     "_id": "5785668eb15c5cbf67d58039",
+     "name": "Epcc",
+     "latitude": 39.479367,
+     "longitude": -6.3425695,
+     "radius": 100,
+     "owner": "57854dedd3a99242574f0a26",
+     "gcmTokenList": [APA91bHPRgkF3JUikC4ENAHEeMrd41Zxv3hVZjC9KtT8OvPVGJ-hQMRKRrZuJAEcl7B338qju59zJMjw2DELjzEvxwYv7hH5Ynpc1ODQ0aT4U4OFEeco8ohsN5PjL1iC2dNtk2BAokeMCg2ZXKqpc8FXKmhX94kIxQ],
+     "tagList": [
+       "School of technology",
+       "Dragon Hunters"
+     ],
+     "date": "2016-07-12T21:52:14.447Z"
+   }
+   ```
+ 
+#### POST /createEvent
+ Add a new Event to mongoDB.
+ 
+ Example: localhost:8585/api/createEvent (remember to always add a valid token in the headers)
+ 
+ Request body:
+ ```
+ {
+     "name"              : "DevFest",
+     "latitude"          : 39.480281,
+     "longitude"         : -6.375719,
+     "radius"            : 100,
+     "tagList"           : ["Node", "Software", "Rock and Roll"]
+ }
+ ```
+  
 #### Messages
 
 - **GET /getMessages** Gets all messages stored in the database.
