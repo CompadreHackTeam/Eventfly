@@ -40,8 +40,8 @@ Please note that the POST services requires a valid token from an authenticated 
 ### Events resources
   - [GET /getEvents](#get-getevents)
   - [GET /getEventsByLocation/[latitude]/[longitude]/[radius]](#get-geteventsbylocationlatitudelongituderadius)
-  - [GET /getEventsByTag/[tag]](#get-geteventsbytag)
-  - [POST /createEvent](#post-postcreateevents)
+  - [GET /getEventsByTag/[tag]](#get-geteventsbytagtagname)
+  - [POST /createEvent](#post-createevent)
 
   
 #### GET /getEvents 
