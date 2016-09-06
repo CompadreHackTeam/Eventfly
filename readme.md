@@ -131,7 +131,7 @@ Response body:
 ### Messages resources
   - [GET /getMessages](#get-getmessages)
   - [GET /getMessage/[eventId]](#get-getmessageeventid)
-  - [GET /getMessagesWithOwners/[eventId]](#get-getmessagewithownerseventid)
+  - [GET /getMessagesWithOwners/[eventId]](#get-getmessageswithownerseventid)
   - [POST /createMessage](#post-createmessage)
   
 #### GET /getMessages 
@@ -200,13 +200,81 @@ Request body:
 }
 ```
 
-
 #### Users
+  - [POST /getUserByToken](#post-getuserbytoken)
+  - [POST /registerUser](#post-registeruser)
+  - [POST /authenticateUser](#post-authenticateuser)
+  - [POST /updateUser](#post-updateuser)
 
-- **GET /getUserByToken** Gets User data from your token.
-- **POST /registerUser** Adds a new User to mongoDB.
-- **POST /authenticateUser** Returns the token of the User authenticated.
-- **POST /updateUser** Updates the user data.
+#### POST /getUserByToken
+Gets User data from the user token
+
+Example: localhost:8585/api/getUserByToken
+
+Request body:
+```
+{
+    "token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NzllM2NkMTZkMTEzMzAzMzlhNzNkOGUiLCJpYXQiOjE0NzMxODQ5NjgsImV4cCI6MTQ3MzE4NTI2OH0.K-sdpJHHni6v4RvL_7ihbcv4wEEEiI6ahw6d_LAlxGE"
+}
+```
+
+Response body:
+```
+{
+    "_id": "57854dedd3a99242574f0a26",
+    "name": "Flanagan",
+    "email": "flanagan@gmail.com",
+    "photo": "579faf16e3bf29ce58de28b7"
+}
+```
+
+#### POST /registerUser
+Adds a new User to mongoDB.
+
+Example: localhost:8585/api/registerUser
+
+Request body:
+```
+{
+    "name" : "Manny Calavera",
+    "email": "manny@deaddepartment.com",
+    "password" : "fandango",
+    "gcm_token" : "APA91bHPRgkF3JUikC4ENAHEeMrd41Zxv3hVZjC9KtT8OvPVGJ-hQMRKRrZuJAEcl7B338qju59zJMjw2DELjzEvxwYv7hH5Ynpc1ODQ0aT4U4OFEeco8ohsN5PjL1iC2dNtk2BAokeMCg2ZXKqpc8FXKmhX94kIxQ"
+}
+```
+
+#### POST /authenticateUser
+Returns the token of the User authenticated.
+
+Example: localhost:8585/api/authenticateUser
+
+Request body:
+```
+{
+    "email" : "manny@deaddepartment.com",
+    "password" : "fandango"
+}
+```
+
+Response body:
+```
+{
+    "token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NzllM2NkMTZkMTEzMzAzMzlhNzNkOGUiLCJpYXQiOjE0NzMxODU1MjMsImV4cCI6MTQ3MzE4NTgyM30.aE8qKKvGknlh66Dc4lDxhYZDZdTuAFka1s6PntVUg5w"
+}
+```
+
+#### POST /updateUser
+Updates the user data.
+
+Example: localhost:8585/api/updateUser (remember to add the user token in the headers, this will update the user corresponding to the token)
+
+Request body: 
+```
+{
+    "photo"     : "579faf16e3bf29ce58de28b7"
+}
+```
+
 
 #### Images
 
