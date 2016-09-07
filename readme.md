@@ -62,7 +62,6 @@ Response body:
     "longitude": -6.3425695,
     "radius": 100,
     "owner": "57854dedd3a99242574f0a26",
-    "gcmTokenList": [APA91bHPRgkF3JUikC4ENAHEeMrd41Zxv3hVZjC9KtT8OvPVGJ-hQMRKRrZuJAEcl7B338qju59zJMjw2DELjzEvxwYv7hH5Ynpc1ODQ0aT4U4OFEeco8ohsN5PjL1iC2dNtk2BAokeMCg2ZXKqpc8FXKmhX94kIxQ],
     "tagList": [
       "School of technology",
       "Dragon Hunters"
@@ -84,7 +83,6 @@ Response body:
     "longitude": -6.3425695,
     "radius": 100,
     "owner": "57854dedd3a99242574f0a26",
-    "gcmTokenList": [APA91bHPRgkF3JUikC4ENAHEeMrd41Zxv3hVZjC9KtT8OvPVGJ-hQMRKRrZuJAEcl7B338qju59zJMjw2DELjzEvxwYv7hH5Ynpc1ODQ0aT4U4OFEeco8ohsN5PjL1iC2dNtk2BAokeMCg2ZXKqpc8FXKmhX94kIxQ],
     "tagList": [
       "School of technology",
       "Dragon Hunters"
@@ -107,7 +105,6 @@ Response body:
      "longitude": -6.3425695,
      "radius": 100,
      "owner": "57854dedd3a99242574f0a26",
-     "gcmTokenList": [APA91bHPRgkF3JUikC4ENAHEeMrd41Zxv3hVZjC9KtT8OvPVGJ-hQMRKRrZuJAEcl7B338qju59zJMjw2DELjzEvxwYv7hH5Ynpc1ODQ0aT4U4OFEeco8ohsN5PjL1iC2dNtk2BAokeMCg2ZXKqpc8FXKmhX94kIxQ],
      "tagList": [
        "School of technology",
        "Dragon Hunters"
