@@ -10,7 +10,7 @@
     "body-parser": "~1.13.2",
     "express": "~4.13.1",
     "express-jwt": "^3.0.1",
-    "mongoose": "4.4.14",
+    "mongoose": "5.9.15",
     "http-auth": "2.2.8",
     "basic-auth": "1.0.3",
     "method-override": "2.3.5",
